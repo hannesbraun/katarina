@@ -6,9 +6,6 @@ from rlc.rlc_generator import RlcGenerator
 class RlcMessageHandler(MessageHandler):
     name = "rlc"
 
-    def __init__(self, global_config):
-        self.cmd_prefix = global_config.cmd_prefix
-
     @classmethod
     def can_handle(cls, msg):
         if msg.lower() == cls.name or msg.lower().startswith(cls.name + " "):

@@ -4,6 +4,9 @@ from abc import ABCMeta, abstractmethod
 class MessageHandler:
     __metaclass__ = ABCMeta
 
+    def __init__(self, global_config):
+        self.cmd_prefix = global_config.cmd_prefix
+
     @classmethod
     @abstractmethod
     def can_handle(cls, msg):

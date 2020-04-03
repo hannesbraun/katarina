@@ -7,9 +7,6 @@ class MiscMessageHandler(MessageHandler):
         "katarina-source"
     ]
 
-    def __init__(self, configuration):
-        self.cmd_prefix = configuration.cmd_prefix
-
     @classmethod
     def can_handle(cls, msg):
         for cmd in cls.commands:
