@@ -23,11 +23,10 @@ class Katarina(discord.Client):
             await self.close()
             return
 
-        parser = StageOneParser(configuration)
+        parser = StageOneParser(configuration, db_connection_wrapper)
         msg_handler = parser.get_message_handler(message)
 
         if msg_handler is not None:
-            msg_handler.set_db(db_connection_wrapper)
             await msg_handler.handle_message(message)
 
 

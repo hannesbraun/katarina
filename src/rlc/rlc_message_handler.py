@@ -7,32 +7,23 @@ class RlcMessageHandler(MessageHandler):
     name = "rlc"
 
     @classmethod
-    def can_handle(cls, msg):
-        if msg.lower() == cls.name or msg.lower().startswith(cls.name + " "):
+    def can_handle(cls, raw_msg, cmd_prefix):
+        if cls._get_argument(raw_msg, 0, cmd_prefix).lower() == cls.name:
             return True
         else:
             return False
 
     def _extract_amount_argument(self, raw_msg):
+        # Default amount
         amount = 1
 
-        if len(raw_msg) > len(self.name):
-            # Check if number supplied for generating multiple champions
-            if raw_msg[len(self.name)] == " ":
-                index_argument_end = raw_msg[len(self.name) + 1:].find(" ")
-                if index_argument_end == -1:
-                    # Something else follows after the argument
-                    str_argument = raw_msg[4:]
-                else:
-                    # Nothing follows after the amount argument
-                    str_argument = raw_msg[4:index_argument_end]
+        amount_str = self._get_argument(raw_msg, 1, "")
 
-                # Try converting the argument to an int
-                try:
-                    print(str_argument)
-                    amount = int(str_argument)
-                except ValueError:
-                    pass
+        # Try converting the argument to an int
+        try:
+            amount = int(amount_str)
+        except ValueError:
+            pass
 
         return amount
 

@@ -8,16 +8,18 @@ class MiscMessageHandler(MessageHandler):
     ]
 
     @classmethod
-    def can_handle(cls, msg):
+    def can_handle(cls, raw_msg, cmd_prefix):
+        msg_arg0 = cls._get_argument(raw_msg, 0, cmd_prefix).lower()
+
         for cmd in cls.commands:
-            if msg.lower() == cmd or msg.lower().startswith(cmd + " "):
+            if msg_arg0 == cmd:
                 return True
 
         # Not found in supported commands
         return False
 
     async def handle_message(self, full_msg):
-        raw_msg = full_msg.content[len(self.cmd_prefix):]
+        command = self._get_argument(full_msg.content, 0, self.cmd_prefix).lower()
 
-        if (raw_msg.lower() == "katarina-source") | raw_msg.lower().startswith("katarina-source "):
+        if command == "katarina-source":
             await full_msg.channel.send("Have a look at the code I'm made of: https://github.com/hannesbraun/katarina")
