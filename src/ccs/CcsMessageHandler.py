@@ -1,3 +1,5 @@
+import discord
+
 from message_handler import MessageHandler
 
 
@@ -8,7 +10,11 @@ class CcsMessageHandler(MessageHandler):
     def can_handle(cls, full_msg, db_connection_wrapper, configuration):
         arg0 = cls._get_argument(full_msg.content, 0, configuration.cmd_prefix)
 
-        if arg0.lower() == "setcc" or "rmcc":
+        if full_msg.channel.type != discord.ChannelType.text:
+            # Only works inside guild text channels
+            return
+
+        if arg0.lower() == "setcc" or arg0.lower() == "rmcc" or arg0.lower() == "ccs-help":
             # Admin commands
             return True
 
@@ -36,6 +42,7 @@ class CcsMessageHandler(MessageHandler):
         restriction_list = cursor.fetchall()
         self.db_connection_wrapper.unlockConnection()
 
+        # Default: command is allowed
         allowed_user = True
         allowed_channel = True
         user_whitelist_mode = False
@@ -83,14 +90,56 @@ class CcsMessageHandler(MessageHandler):
 
         return allowed_channel and allowed_user
 
+    def _get_cc_help_list(self, server_id, server_name):
+        # Get command list
+        self.db_connection_wrapper.lockConnection()
+        cursor = self.db_connection_wrapper.connection.cursor()
+        cursor.execute("SELECT * FROM classic_command WHERE server_id = ? and active = 1", (str(server_id),))
+        command_list = cursor.fetchall()
+        self.db_connection_wrapper.unlockConnection()
+
+        embed_list = []
+        embed = discord.Embed(title="Available classic commands for " + server_name,
+                              colour=discord.Colour(0x421497))
+
+        for command in command_list:
+            # Get description
+            description = command["description"]
+            if description is None or len(description) <= 0 or len(description) > 1000:
+                description =  "*No description*"
+
+            # Add command
+            embed.add_field(name=self.cmd_prefix + command["command"], value=description)
+
+            if len(embed) > 6000:
+                # Limit reached, start new embed
+                embed.remove_field(len(embed.fields) - 1)
+                embed_list.append(embed)
+                embed = discord.Embed(title="Available classic commands for " + server_name,
+                                      colour=discord.Colour(0x421497))
+                embed.add_field(name=self.cmd_prefix + command["command"], value=description)
+
+        embed_list.append(embed)
+        return embed_list
+
     async def handle_message(self, full_msg):
         arg0 = self._get_argument(full_msg.content, 0, self.cmd_prefix)
+
+        if full_msg.channel.type != discord.ChannelType.text:
+            # Only works inside guild text channels
+            return
+
+        if arg0.lower() == "ccs-help":
+            # Send list with available commands for the server
+            help_msg_list = self._get_cc_help_list(full_msg.channel.guild.id, full_msg.channel.guild.name)
+            for help_msg in help_msg_list:
+                await full_msg.author.send(embed=help_msg)
 
         if not self._is_allowed(full_msg):
             # Not allowed due to user or channel restrictions
             return
 
-        # Get commands
+        # Get command
         self.db_connection_wrapper.lockConnection()
         cursor = self.db_connection_wrapper.connection.cursor()
         cursor.execute("SELECT * FROM classic_command WHERE command = ? and server_id = ? and active = 1", (arg0,
