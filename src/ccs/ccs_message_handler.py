@@ -15,7 +15,7 @@ class CcsMessageHandler(MessageHandler):
 
         if full_msg.channel.type != discord.ChannelType.text:
             # Only works inside guild text channels
-            return
+            return False
 
         if arg0.lower() == cls.set_name or arg0.lower() == cls.rm_name or arg0.lower() == cls.data_name or arg0.lower() == cls.help_name:
             # Admin commands
