@@ -24,7 +24,7 @@ class Katarina(discord.Client):
             return
 
         parser = StageOneParser(configuration, db_connection_wrapper)
-        msg_handler = parser.get_message_handler(message)
+        msg_handler = await parser.get_message_handler(message)
 
         if msg_handler is not None:
             await msg_handler.handle_message(message)
