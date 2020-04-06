@@ -1,5 +1,6 @@
 from ccs.ccs_message_handler import CcsMessageHandler
 from danbooru.danbooru_message_handler import DanbooruMessageHandler
+from gambling_message_handler import GamblingMessageHandler
 from gif.gif_message_handler import GifMessageHandler
 from joke.joke_message_handler import JokeMessageHandler
 from misc.misc_message_handler import MiscMessageHandler
@@ -34,6 +35,10 @@ class StageOneParser:
                 # Miscellaneous stuff
                 misc_message_handler = MiscMessageHandler(self.configuration, self.db_connection_wrapper)
                 return misc_message_handler
+            elif GamblingMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
+                # Gambling
+                gambling_message_handler = GamblingMessageHandler(self.configuration, self.db_connection_wrapper)
+                return gambling_message_handler
             elif (await CcsMessageHandler.can_handle(full_msg, self.db_connection_wrapper, self.configuration)):
                 # Custom command system
                 ccs_message_handler = CcsMessageHandler(self.configuration, self.db_connection_wrapper)
