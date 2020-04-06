@@ -4,6 +4,9 @@ class Configuration:
 
         cursor = db_connection_wrapper.connection.cursor()
 
+        cursor.execute("SELECT value FROM configuration WHERE key = 'db_version'")
+        self.db_version = cursor.fetchone()["value"]
+
         cursor.execute("SELECT value FROM configuration WHERE key = 'cmd_prefix'")
         self.cmd_prefix = cursor.fetchone()["value"]
 

@@ -31,17 +31,20 @@ class Katarina(discord.Client):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) >= 2:
+    if len(sys.argv) >= 3:
         client = Katarina()
 
         # Connect to database
-        db_connection_wrapper = DatabaseConnectionWrapper("katarina.db")
+        db_connection_wrapper = DatabaseConnectionWrapper(sys.argv[1])
 
         # Get configuration
         configuration = Configuration(db_connection_wrapper)
 
-        # Run
-        client.run(sys.argv[1])
+        if configuration.db_version == "1":
+            # Run
+            client.run(sys.argv[2])
+        else:
+            print("Incompatible database version")
 
         db_connection_wrapper.shutdown()
     else:
