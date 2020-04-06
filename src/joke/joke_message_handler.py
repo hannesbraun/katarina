@@ -17,7 +17,7 @@ class JokeMessageHandler(MessageHandler):
         # Get all jokes
         async with self.db_connection_wrapper.lock:
             cursor = self.db_connection_wrapper.connection.cursor()
-            cursor.execute("SELECT * FROM joke")
+            cursor.execute("SELECT * FROM joke WHERE active = 1")
             result = cursor.fetchall()
 
         if len(result) > 0:
