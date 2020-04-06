@@ -1,5 +1,6 @@
 from ccs.ccs_message_handler import CcsMessageHandler
 from danbooru.danbooru_message_handler import DanbooruMessageHandler
+from gif.gif_message_handler import GifMessageHandler
 from joke.joke_message_handler import JokeMessageHandler
 from misc.misc_message_handler import MiscMessageHandler
 from rlc.rlc_message_handler import RlcMessageHandler
@@ -21,6 +22,10 @@ class StageOneParser:
                 # Send image from danbooru-like board
                 danbooru_message_handler = DanbooruMessageHandler(self.configuration, self.db_connection_wrapper)
                 return danbooru_message_handler
+            elif GifMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
+                # Send a gif
+                gif_message_handler = GifMessageHandler(self.configuration, self.db_connection_wrapper)
+                return gif_message_handler
             elif JokeMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
                 # Tell a joke
                 joke_message_handler = JokeMessageHandler(self.configuration, self.db_connection_wrapper)

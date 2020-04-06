@@ -9,3 +9,6 @@ class Configuration:
 
         cursor.execute("SELECT value FROM configuration WHERE key = 'owner_id'")
         self.owner_id = int(cursor.fetchone()["value"])
+
+        cursor.execute("SELECT value FROM configuration WHERE key = 'bot_name'")
+        self.bot_name = cursor.fetchone()["value"]
