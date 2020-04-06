@@ -10,7 +10,20 @@ class GifMessageHandler(MessageHandler):
         super().__init__(global_config, db_connection_wrapper)
         self.bot_name = global_config.bot_name
 
-    _active_commands = {"hug": "hugs", "kiss": "kisses", "slap": "slaps"}
+    _active_commands = {
+        "bite": "bites",
+        "cake": "feeds",
+        "cuddle": "cuddles",
+        "glare": "glares at",
+        "highfive": "high-fives",
+        "hug": "hugs",
+        "kiss": "kisses",
+        "lick": "licks",
+        "pat": "pats",
+        "poke": "pokes",
+        "punch": "punches",
+        "slap": "slaps"
+    }
     _passive_commands = {}
 
     @classmethod
