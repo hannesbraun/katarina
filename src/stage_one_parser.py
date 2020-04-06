@@ -3,6 +3,7 @@ from danbooru.danbooru_message_handler import DanbooruMessageHandler
 from gambling_message_handler import GamblingMessageHandler
 from gif.gif_message_handler import GifMessageHandler
 from joke.joke_message_handler import JokeMessageHandler
+from math_fun.math_message_handler import MathMessageHandler
 from misc.misc_message_handler import MiscMessageHandler
 from rlc.rlc_message_handler import RlcMessageHandler
 
@@ -31,6 +32,10 @@ class StageOneParser:
                 # Tell a joke
                 joke_message_handler = JokeMessageHandler(self.configuration, self.db_connection_wrapper)
                 return joke_message_handler
+            elif MathMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
+                # Do some math
+                math_message_handler = MathMessageHandler(self.configuration, self.db_connection_wrapper)
+                return math_message_handler
             elif MiscMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
                 # Miscellaneous stuff
                 misc_message_handler = MiscMessageHandler(self.configuration, self.db_connection_wrapper)
