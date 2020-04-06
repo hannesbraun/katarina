@@ -1,5 +1,7 @@
 class Configuration:
     def __init__(self, db_connection_wrapper):
+        self.bot_version = "3.0"
+
         cursor = db_connection_wrapper.connection.cursor()
 
         cursor.execute("SELECT value FROM configuration WHERE key = 'cmd_prefix'")

@@ -1,4 +1,5 @@
 from ccs.ccs_message_handler import CcsMessageHandler
+from danbooru.danbooru_message_handler import DanbooruMessageHandler
 from joke.joke_message_handler import JokeMessageHandler
 from misc.misc_message_handler import MiscMessageHandler
 from rlc.rlc_message_handler import RlcMessageHandler
@@ -16,6 +17,10 @@ class StageOneParser:
                 # Random LoL Champion
                 rlc_message_handler = RlcMessageHandler(self.configuration, self.db_connection_wrapper)
                 return rlc_message_handler
+            elif DanbooruMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
+                # Send image from danbooru-like board
+                danbooru_message_handler = DanbooruMessageHandler(self.configuration, self.db_connection_wrapper)
+                return danbooru_message_handler
             elif JokeMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
                 # Tell a joke
                 joke_message_handler = JokeMessageHandler(self.configuration, self.db_connection_wrapper)
