@@ -5,6 +5,7 @@ from gif.gif_message_handler import GifMessageHandler
 from joke.joke_message_handler import JokeMessageHandler
 from math_fun.math_message_handler import MathMessageHandler
 from misc.misc_message_handler import MiscMessageHandler
+from music.music_message_handler import MusicMessageHandler
 from rlc.rlc_message_handler import RlcMessageHandler
 
 
@@ -36,6 +37,10 @@ class StageOneParser:
                 # Do some math
                 math_message_handler = MathMessageHandler(self.configuration, self.db_connection_wrapper)
                 return math_message_handler
+            elif MusicMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
+                # Music bot
+                music_message_handler = MusicMessageHandler(self.configuration, self.db_connection_wrapper)
+                return music_message_handler
             elif MiscMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
                 # Miscellaneous stuff
                 misc_message_handler = MiscMessageHandler(self.configuration, self.db_connection_wrapper)

@@ -15,3 +15,6 @@ class Configuration:
 
         cursor.execute("SELECT value FROM configuration WHERE key = 'bot_name'")
         self.bot_name = cursor.fetchone()["value"]
+
+        cursor.execute("SELECT value FROM configuration WHERE key = 'tmp_dir'")
+        self.tmp_dir = cursor.fetchone()["value"]

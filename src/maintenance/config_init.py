@@ -7,3 +7,4 @@ class ConfigurationInitializer:
         cursor.execute("INSERT INTO configuration (key, value) VALUES('cmd_prefix', '!')")
         cursor.execute("INSERT INTO configuration (key, value) VALUES('bot_name', 'Katarina')")
         cursor.execute("INSERT INTO configuration (key, value) VALUES('owner_id', '0')")
+        cursor.execute("INSERT INTO configuration (key, value) VALUES('tmp_dir', 'tmp')")
