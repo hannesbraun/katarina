@@ -330,7 +330,44 @@ class GifFactory():
             "http://i.imgur.com/FOdbhav.gif",
             "http://i.imgur.com/xWTyaKY.gif",
             "http://i.imgur.com/MrEMpE6.gif",
-            "http://i.imgur.com/Y9sMTP4.gif"
+            "http://i.imgur.com/Y9sMTP4.gif",
+            "https://i.imgur.com/0bkZa2R.gif",
+            "https://i.imgur.com/2pWAtLl.gif",
+            "https://i.imgur.com/3aYhBvm.gif",
+            "https://i.imgur.com/3VxaPl9.gif",
+            "https://i.imgur.com/5m2lSE6.gif",
+            "https://i.imgur.com/8qNeRKm.gif",
+            "https://i.imgur.com/9L5FwI8.gif",
+            "https://i.imgur.com/9rQB0Kh.gif",
+            "https://i.imgur.com/8127BtK.gif",
+            "https://i.imgur.com/c1HAZqs.gif",
+            "https://i.imgur.com/CEjwWtW.gif",
+            "https://i.imgur.com/cr8FvDi.gif",
+            "https://i.imgur.com/EMWgZpS.gif",
+            "https://i.imgur.com/fSCbsJg.gif",
+            "https://i.imgur.com/i3lYZye.gif",
+            "https://i.imgur.com/IW5Wrf9.gif",
+            "https://i.imgur.com/KgvQa15.gif",
+            "https://i.imgur.com/mGs21wg.gif",
+            "https://i.imgur.com/oapaLEO.gif",
+            "https://i.imgur.com/OaYDYFt.gif",
+            "https://i.imgur.com/OKLKhPx.gif",
+            "https://i.imgur.com/pPRYv84.gif",
+            "https://i.imgur.com/Q9BnV6n.gif",
+            "https://i.imgur.com/SNfnbZK.gif",
+            "https://i.imgur.com/t8HtLMA.gif",
+            "https://i.imgur.com/T9A4DfG.gif",
+            "https://i.imgur.com/TIT7Dmt.gif",
+            "https://i.imgur.com/TkQgH8v.gif",
+            "https://i.imgur.com/UN29yMD.gif",
+            "https://i.imgur.com/uSDoSDP.gif",
+            "https://i.imgur.com/uzS8ass.gif",
+            "https://i.imgur.com/wzvOKOQ.gif",
+            "https://i.imgur.com/y7prhj4.gif",
+            "https://i.imgur.com/YSQ6fC4.gif",
+            "https://i.imgur.com/yTjkKjB.gif",
+            "https://i.imgur.com/YtWCHd0.gif",
+            "https://i.imgur.com/z1b0tse.gif"
         ]
         for hug in hug_list:
             self._insert_gif(cursor, "hug", hug)
@@ -354,7 +391,29 @@ class GifFactory():
             "http://i.imgur.com/XLjH6zQ.gif",
             "http://i.imgur.com/W7arBvy.gif",
             "http://i.imgur.com/W9htMol.gif",
-            "http://i.imgur.com/IVOBC8p.gif"
+            "http://i.imgur.com/IVOBC8p.gif",
+            "https://i.imgur.com/0WWWvat.gif",
+            "https://i.imgur.com/4h7uBat.gif",
+            "https://i.imgur.com/709chb9.gif",
+            "https://i.imgur.com/CtXHoOd.gif",
+            "https://i.imgur.com/cWnyExp.gif",
+            "https://i.imgur.com/hcqmSPq.gif",
+            "https://i.imgur.com/JGRB1pF.gif",
+            "https://i.imgur.com/jjxalGq.gif",
+            "https://i.imgur.com/KKP079r.gif",
+            "https://i.imgur.com/KWM6eIB.gif",
+            "https://i.imgur.com/MGdlYsj.gif",
+            "https://i.imgur.com/mNEHfJ0.gif",
+            "https://i.imgur.com/NPKIfOf.gif",
+            "https://i.imgur.com/OE7lSSY.gif",
+            "https://i.imgur.com/q8VV95J.gif",
+            "https://i.imgur.com/RZ6myag.gif",
+            "https://i.imgur.com/s3DggdT.gif",
+            "https://i.imgur.com/YkrEkbF.gif",
+            "https://i.imgur.com/YOQgZqY.gif",
+            "https://i.imgur.com/YVkdbjp.gif",
+            "https://i.imgur.com/zGFB0wJ.gif"
+
         ]
         for kiss in kiss_list:
             self._insert_gif(cursor, "kiss", kiss)
@@ -450,7 +509,12 @@ class GifFactory():
             "http://i.imgur.com/ilc8zXi.gif",
             "http://i.imgur.com/4GgbYst.gif",
             "http://i.imgur.com/1mr4NWL.gif",
-            "http://i.imgur.com/wXw7IjY.gif"
+            "http://i.imgur.com/wXw7IjY.gif",
+            "https://i.imgur.com/3wFMOxX.gif",
+            "https://i.imgur.com/6blw2Lj.gif",
+            "https://i.imgur.com/e0I4N2g.gif",
+            "https://i.imgur.com/kutIuyK.gif",
+            "https://i.imgur.com/lZst12K.gif"
         ]
         for pat in pat_list:
             self._insert_gif(cursor, "pat", pat)
