@@ -1,9 +1,9 @@
 import sqlite3
 import sys
 
-from maintenance.config_init import ConfigurationInitializer
-from maintenance.db_init import DatabaseInitializer
-from maintenance.gif_init import GifFactory
+from config_init import ConfigurationInitializer
+from db_init import DatabaseInitializer
+from gif_init import GifFactory
 
 if __name__ == "__main__":
     if len(sys.argv) >= 3:
@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
         if sys.argv[1].lower() == "init" or sys.argv[1].lower() == "update":
             cursor = connection.cursor()
-            cursor.execute("SELECT value FROM configuration WHERE key = 'db_version")
+            cursor.execute("SELECT value FROM configuration WHERE key = 'db_version'")
             db_version = cursor.fetchone()[0]
             if db_version == "1":
                 gif_factory = GifFactory()
