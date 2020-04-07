@@ -1,3 +1,4 @@
+from admin.admin_message_handler import AdminMessageHandler
 from ccs.ccs_message_handler import CcsMessageHandler
 from danbooru.danbooru_message_handler import DanbooruMessageHandler
 from gambling_message_handler import GamblingMessageHandler
@@ -25,6 +26,9 @@ class StageOneParser:
                 # Send image from danbooru-like board
                 danbooru_message_handler = DanbooruMessageHandler(self.configuration, self.db_connection_wrapper)
                 return danbooru_message_handler
+            elif AdminMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
+                admin_message_handler = AdminMessageHandler(self.configuration, self.db_connection_wrapper)
+                return admin_message_handler
             elif GifMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
                 # Send a gif
                 gif_message_handler = GifMessageHandler(self.configuration, self.db_connection_wrapper)
