@@ -17,6 +17,7 @@ class AdminMessageHandler(MessageHandler):
                 await full_msg.delete()
                 return
 
+            await full_msg.delete()
             messages = await full_msg.channel.history(limit=arg1_int).flatten()
             await full_msg.channel.delete_messages(messages)
 
