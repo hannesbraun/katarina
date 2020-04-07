@@ -14,7 +14,7 @@ class MusicMessageHandler(MessageHandler):
         self.tmp_dir = global_config.tmp_dir
 
     # Avaliable commands
-    commands = ["play", "pause", "stop", "skip", "queue", "shuffle"]
+    commands = ["play", "pause", "stop", "clearqueue", "skip", "queue", "shuffle"]
 
     _instances = {}
     _instances_lock = asyncio.Lock()
@@ -233,6 +233,18 @@ class MusicMessageHandler(MessageHandler):
                 pass
         await full_msg.delete(delay=120.0)
 
+    async def _clear(self, full_msg):
+        base_check_result = await self._base_check(full_msg)
+        if not base_check_result:
+            return
+
+        # Clear queue
+        async with self.__class__._instances_lock:
+            # Clear the queue
+            self.__class__._instances[full_msg.channel.guild.id]["queue"].clear()
+        await full_msg.channel.send("The queue is empty now.", delete_after=120.0)
+        await full_msg.delete(delay=120.0)
+
     async def _pause(self, full_msg):
         base_check_result = await self._base_check(full_msg)
         if not base_check_result:
@@ -314,6 +326,8 @@ class MusicMessageHandler(MessageHandler):
             await self._pause(full_msg)
         elif arg0 == "stop":
             await self._stop(full_msg)
+        elif arg0 == "clearqueue":
+            await self._clear(full_msg)
         elif arg0 == "queue":
             await self._queue(full_msg)
         elif arg0 == "skip":
