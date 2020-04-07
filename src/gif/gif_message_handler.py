@@ -24,7 +24,14 @@ class GifMessageHandler(MessageHandler):
         "punch": "punches",
         "slap": "slaps"
     }
-    _passive_commands = {}
+    _passive_commands = [
+        "confused",
+        "cry",
+        "lewd",
+        "pout",
+        "smug",
+        "stare"
+    ]
 
     @classmethod
     def can_handle(cls, full_msg, cmd_prefix):
@@ -67,10 +74,11 @@ class GifMessageHandler(MessageHandler):
                                 + " and " + affected_user_list[-1]
                     else:
                         title = author_str + " " + self._active_commands[arg0] + " " + affected_user_list[0]
-            else:
-                title = self._passive_commands[arg0]
 
-            funny_embed = discord.Embed(title=title, colour=discord.Colour(0x4a6cac))
+                funny_embed = discord.Embed(title=title, colour=discord.Colour(0x4a6cac))
+            else:
+                funny_embed = discord.Embed(colour=discord.Colour(0x4a6cac))
+
             funny_embed.set_image(url=gif_url)
 
             await full_msg.channel.send(embed=funny_embed)
