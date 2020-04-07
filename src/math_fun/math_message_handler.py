@@ -37,7 +37,7 @@ class MathMessageHandler(MessageHandler):
             # Subtract
             result = arg1_float - arg3_float
         elif arg2 == "*":
-            # Multipy
+            # Multiply
             result = arg1_float * arg3_float
         elif arg2 == "/":
             # Divide
