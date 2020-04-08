@@ -54,8 +54,9 @@ class DanbooruMessageHandler(MessageHandler):
     @classmethod
     def can_handle(cls, full_msg, cmd_prefix):
         arg0 = cls._get_argument(full_msg, 0, cmd_prefix).lower()
-        if arg0[-1] == "+":
-            arg0 = arg0[:-1]
+        if len(arg0) > 1:
+            if arg0[-1] == "+":
+                arg0 = arg0[:-1]
         if arg0 in cls.boards:
             return True
         else:
