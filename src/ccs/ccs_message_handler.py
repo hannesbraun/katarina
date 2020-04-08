@@ -128,12 +128,14 @@ class CcsMessageHandler(MessageHandler):
         arg1 = self._get_argument(full_msg.content, 1, self.cmd_prefix)
         arg2 = self._get_argument(full_msg.content, 2, self.cmd_prefix)
 
-        tmp_msg = full_msg.content[len(self.cmd_prefix):]
-        arg_list = tmp_msg.split()
-        if len(arg_list) > 3:
-            arg3 = " ".join(arg_list[3:])
-        else:
-            arg3 = ""
+        # arg3
+        if len(arg1) > 0 and len(arg2) > 0:
+            tmp_msg = full_msg.content[len(self.cmd_prefix):]
+            index1 = tmp_msg.find(arg1)
+            tmp_msg = tmp_msg[index1+len(arg1):]
+            index2 = tmp_msg.find(arg2)
+            tmp_msg = tmp_msg[index2 + len(arg2):]
+            arg3 = tmp_msg.strip()
 
         if len(arg1) <= 0 or len(arg2) <= 0 or len(arg3) <= 0:
             # Not enough arguments
