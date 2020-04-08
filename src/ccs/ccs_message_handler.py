@@ -111,7 +111,7 @@ class CcsMessageHandler(MessageHandler):
             # Add command
             embed.add_field(name=self.cmd_prefix + command["command"], value=description, inline=False)
 
-            if len(embed) > 6000:
+            if len(embed) > 6000 or len(embed.fields) > 25:
                 # Limit reached, start new embed
                 embed.remove_field(len(embed.fields) - 1)
                 embed_list.append(embed)
@@ -342,6 +342,7 @@ class CcsMessageHandler(MessageHandler):
             help_msg_list = await self._get_cc_help_list(full_msg.channel.guild.id, full_msg.channel.guild.name)
             for help_msg in help_msg_list:
                 await full_msg.author.send(embed=help_msg)
+            await full_msg.delete()
 
         elif arg0.lower() == self.rm_name:
             # Delete command
