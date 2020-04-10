@@ -1,6 +1,7 @@
 from admin.admin_message_handler import AdminMessageHandler
 from ccs.ccs_message_handler import CcsMessageHandler
 from danbooru.danbooru_message_handler import DanbooruMessageHandler
+from fun.fun_message_handler import FunMessageHandler
 from gambling_message_handler import GamblingMessageHandler
 from gif.gif_message_handler import GifMessageHandler
 from joke.joke_message_handler import JokeMessageHandler
@@ -49,6 +50,10 @@ class StageOneParser:
                 # Miscellaneous stuff
                 misc_message_handler = MiscMessageHandler(self.configuration, self.db_connection_wrapper)
                 return misc_message_handler
+            elif FunMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
+                # Some fun stuff
+                fun_message_handler = FunMessageHandler(self.configuration, self.db_connection_wrapper)
+                return fun_message_handler
             elif GamblingMessageHandler.can_handle(full_msg.content, self.configuration.cmd_prefix):
                 # Gambling
                 gambling_message_handler = GamblingMessageHandler(self.configuration, self.db_connection_wrapper)
