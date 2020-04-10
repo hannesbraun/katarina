@@ -85,6 +85,11 @@ Available passive commands:
 * ``!smug``
 * ``!stare``
 
+### More fun
+
+* `!cat`: A random image of a cat will be sent.
+* `!dog`: A random image of a dog will be sent.
+
 ### Music bot
 
 Katarina can play music. Currently, YouTube is the only supported media source.
