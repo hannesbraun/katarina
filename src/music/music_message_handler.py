@@ -57,6 +57,7 @@ class MusicMessageHandler(MessageHandler):
         else:
             # Validate provided url
             valid_url = True
+            no_content = False
             if not arg1.startswith(("https://www.youtube.com/", "www.youtube.com/", "youtube.com/",
                                     "https://youtu.be/", "youtu.be/")):
                 # Does not seem to be a valid youtube url
@@ -72,12 +73,20 @@ class MusicMessageHandler(MessageHandler):
                         # Is playlist?
                         playlist = pytube.Playlist(arg1)
                         is_playlist = True
+                        if len(playlist) <= 0:
+                            no_content = True
                     except KeyError:
                         valid_url = False
 
             if not valid_url:
                 # Invalid url, cancel operation
                 await full_msg.channel.send("Error: not a valid url.", delete_after=120.0)
+                await full_msg.delete(delay=120.0)
+                return
+            elif no_content:
+                # Nothing found in playlist
+                await full_msg.channel.send("Error: no media found in playlist. Is this maybe a private playlist?",
+                                            delete_after=120.0)
                 await full_msg.delete(delay=120.0)
                 return
 
@@ -89,9 +98,11 @@ class MusicMessageHandler(MessageHandler):
             else:
                 # Create new instance
                 wait_event = asyncio.Event()
+
                 def track_finished(error):
                     nonlocal wait_event
                     wait_event.set()
+
                 instance = {
                     "event": wait_event,
                     "queue": [],
