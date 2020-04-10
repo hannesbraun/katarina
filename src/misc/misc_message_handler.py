@@ -21,7 +21,6 @@ class MiscMessageHandler(MessageHandler):
     async def handle_message(self, full_msg):
         command = self._get_argument(full_msg.content, 0, self.cmd_prefix).lower()
 
-
         if command == "about":
             message = "Katarina version " + self.bot_version\
                       + "\nCopyright \u00a9 2020 Hannes Braun"\

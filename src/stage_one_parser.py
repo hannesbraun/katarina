@@ -58,7 +58,7 @@ class StageOneParser:
                 # Gambling
                 gambling_message_handler = GamblingMessageHandler(self.configuration, self.db_connection_wrapper)
                 return gambling_message_handler
-            elif (await CcsMessageHandler.can_handle(full_msg, self.db_connection_wrapper, self.configuration)):
+            elif await CcsMessageHandler.can_handle(full_msg, self.db_connection_wrapper, self.configuration):
                 # Custom command system
                 ccs_message_handler = CcsMessageHandler(self.configuration, self.db_connection_wrapper)
                 return ccs_message_handler
