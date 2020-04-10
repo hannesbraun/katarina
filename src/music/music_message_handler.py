@@ -142,7 +142,13 @@ class MusicMessageHandler(MessageHandler):
         while True:
             # Get url
             async with self.__class__._instances_lock:
-                url = instance["queue"].pop(0)
+                if len(instance["queue"]) <= 0:
+                    # Nothing more to play: disconnect and delete instance
+                    await voiceclient.disconnect()
+                    del self.__class__._instances[full_msg.channel.guild.id]
+                    break
+                else:
+                    url = instance["queue"].pop(0)
 
             async with self.__class__._download_lock:
                 # Get unused filename
@@ -177,13 +183,6 @@ class MusicMessageHandler(MessageHandler):
                 # Download not successful
                 await full_msg.channel.send("Error while downloading the next track.", delete_after=120.0)
             # Else: skipped track before download
-
-            async with self.__class__._instances_lock:
-                if len(instance["queue"]) <= 0:
-                    # Nothing more to play: disconnect and delete instance
-                    del self.__class__._instances[full_msg.channel.guild.id]
-                    await voiceclient.disconnect()
-                    break
 
     async def _base_check(self, full_msg):
         async with self.__class__._instances_lock:
