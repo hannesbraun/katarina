@@ -310,7 +310,10 @@ class MusicMessageHandler(MessageHandler):
         i = 1
         for url in queue:
             # Get the title
-            message_str += "\n" + str(i) + ". " + pytube.YouTube(url).streams.get_audio_only().title
+            try:
+                message_str += "\n" + str(i) + ". " + pytube.YouTube(url).streams.get_audio_only().title
+            except pytube.exceptions.ExtractError:
+                pass
             i += 1
 
             # To not disturb the current audio playing
