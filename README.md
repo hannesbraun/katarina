@@ -140,7 +140,6 @@ Both versions of these commands only work in nsfw channels.
 * [discord.py](https://github.com/Rapptz/discord.py)
 * [Requests](https://github.com/psf/requests)
 * [pytube3](https://github.com/nficano/pytube)
-* [PyNaCl](https://github.com/pyca/pynacl)
 
 ## License
 
