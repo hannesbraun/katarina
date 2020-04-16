@@ -34,9 +34,5 @@ class SafebooruClient(DanbooruClient):
         else:
             return score
 
-    def _get_tags(self, post):
-        tags = post["tags"].split()
-        if len(tags) > 0:
-            return "`" + "`, `".join(tags) + "`"
-        else:
-            return "*No tags available*"
+    def _get_tag_list(self, post):
+        return post["tags"].split()

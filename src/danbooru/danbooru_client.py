@@ -41,10 +41,22 @@ class DanbooruClient:
     def _get_full_post_url(self, post):
         return "https://danbooru.donmai.us/posts/" + str(post["id"])
 
+    def _get_tag_list(self, post):
+        return post["tag_string"].split()
+
     def _get_tags(self, post):
-        tags = post["tag_string"].split()
+        tags = self._get_tag_list(post)
+
         if len(tags) > 0:
-            return "`" + "`, `".join(tags) + "`"
+            while True:
+                tag_str = "`" + "`, `".join(tags) + "`"
+                if len(tag_str) < 1024:
+                    return tag_str
+                elif len(tags) > 1:
+                    # Tag string is too long: shorten it
+                    tags = tags[:-1]
+                else:
+                    return "*A tag exceeds the max. field size of Discord embeds.*"
         else:
             return "*No tags available*"
 

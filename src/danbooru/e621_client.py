@@ -23,14 +23,10 @@ class E621Client(DanbooruClient):
     def _get_score(self, post):
         return post["score"]["total"]
 
-    def _get_tags(self, post):
+    def _get_tag_list(self, post):
         tags = post["tags"]["general"]
         tags.extend(post["tags"]["species"])
         tags.extend(post["tags"]["character"])
         tags.extend(post["tags"]["copyright"])
         tags.extend(post["tags"]["artist"])
-
-        if len(tags) > 0:
-            return "`" + "`, `".join(tags) + "`"
-        else:
-            return "*No tags available*"
+        return tags

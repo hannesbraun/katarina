@@ -27,9 +27,5 @@ class Rule34Client(DanbooruClient):
     def _get_full_post_url(self, post):
         return "https://rule34.xxx/index.php?page=post&s=view&id=" + str(post["id"])
 
-    def _get_tags(self, post):
-        tags = post["tags"].split()
-        if len(tags) > 0:
-            return "`" + "`, `".join(tags) + "`"
-        else:
-            return "*No tags available*"
+    def _get_tag_list(self, post):
+        return post["tags"].split()
