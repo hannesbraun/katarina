@@ -1,3 +1,5 @@
+import discord
+
 from danbooru.danbooru_client import DanbooruClient
 from danbooru.e621_client import E621Client
 from danbooru.gelbooru_client import GelbooruClient
@@ -63,6 +65,10 @@ class DanbooruMessageHandler(MessageHandler):
             return False
 
     async def handle_message(self, full_msg):
+        if not isinstance(full_msg.channel, discord.TextChannel):
+            # Only works with servers (because DM channels can't be marked as nsfw)
+            return
+
         if not full_msg.channel.is_nsfw():
             await full_msg.channel.send("This command is not safe for work. You can only invoke it in a nsfw channel.",
                                         delete_after=18.0)
