@@ -86,9 +86,14 @@ class DanbooruClient:
         # Choose random post
         post = random.choice(index)
 
+        try:
+            img_url = self._get_image_url(post)
+        except KeyError:
+            return self._get_error_embed("No image url found for this post.")
+
         # Create embed
         danbooru_embed = discord.Embed(title=self._title, colour=discord.Colour(0xd480ff))
-        danbooru_embed.set_image(url=self._get_image_url(post))
+        danbooru_embed.set_image(url=img_url)
         danbooru_embed.add_field(name="\U0001f5d2 Tags", value=self._get_tags(post))
         danbooru_embed.add_field(name="\U0001f4c8 Score", value=str(self._get_score(post)))
         danbooru_embed.add_field(name="\U0001f4ce Full post", value="[Click here](" + str(self._get_full_post_url(post))
