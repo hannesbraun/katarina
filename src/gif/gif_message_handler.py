@@ -47,7 +47,16 @@ class GifMessageHandler(MessageHandler):
         # Get appropriate gifs
         async with self.db_connection_wrapper.lock:
             cursor = self.db_connection_wrapper.connection.cursor()
-            if not full_msg.channel.is_nsfw():
+            if not isinstance(full_msg.channel, discord.TextChannel):
+                # Nsfw gifs only work on servers (because DM channels can't be marked as nsfw)
+                nsfw = False
+            elif not full_msg.channel.is_nsfw():
+                # Channel is not marked as nsfw
+                nsfw = False
+            else:
+                nsfw = True
+
+            if not nsfw:
                 # Only safe for work gifs
                 cursor.execute("SELECT url FROM gif WHERE command = ? and active = 1 and nsfw = 0", (arg0, ))
             else:
