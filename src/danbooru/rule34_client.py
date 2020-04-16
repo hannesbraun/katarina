@@ -5,8 +5,8 @@ from danbooru.danbooru_client import DanbooruClient
 
 class Rule34Client(DanbooruClient):
     def _get_index_params(self):
-        page = random.randint(1, 1000)
-        return {"page": "dapi", "s": "post", "q": "index", "json": "1", "limit": "200", "pid": str(page)}
+        page = random.randint(1, 2000)
+        return {"page": "dapi", "s": "post", "q": "index", "json": "1", "limit": "100", "pid": str(page)}
 
     _title = "Rule 34"
     _index_url = "https://rule34.xxx/index.php"

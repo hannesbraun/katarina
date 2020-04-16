@@ -5,8 +5,8 @@ from danbooru.danbooru_client import DanbooruClient
 
 class SafebooruClient(DanbooruClient):
     def _get_index_params(self):
-        page = random.randint(1, 14500)
-        return {"page": "dapi", "s": "post", "q": "index", "json": "1", "limit": "200", "pid": str(page)}
+        page = random.randint(1, 29100)
+        return {"page": "dapi", "s": "post", "q": "index", "json": "1", "limit": "100", "pid": str(page)}
 
     _title = "Safebooru"
     _index_url = "https://safebooru.org/index.php"

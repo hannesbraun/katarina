@@ -5,8 +5,8 @@ from danbooru.danbooru_client import DanbooruClient
 
 class YandereClient(DanbooruClient):
     def _get_index_params(self):
-        page = random.randint(1, 2500)
-        return {"limit": "200", "page": str(page)}
+        page = random.randint(1, 5505)
+        return {"limit": "100", "page": str(page)}
 
     _title = "Yande.re"
     _index_url = "https://yande.re/post.json"

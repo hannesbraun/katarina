@@ -11,7 +11,7 @@ class DanbooruClient:
 
     def _get_index_params(self):
         page = random.randint(1, 1000)
-        return {"limit": "200", "page": str(page)}
+        return {"limit": "100", "page": str(page)}
 
     _title = "Danbooru"
     _index_url = "https://danbooru.donmai.us/posts.json"

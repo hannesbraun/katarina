@@ -5,8 +5,8 @@ from danbooru.danbooru_client import DanbooruClient
 
 class KonachanClient(DanbooruClient):
     def _get_index_params(self):
-        page = random.randint(1, 1213)
-        return {"limit": "200", "page": str(page)}
+        page = random.randint(1, 2431)
+        return {"limit": "100", "page": str(page)}
 
     _title = "Konachan"
     _index_url = "https://konachan.com/post.json"

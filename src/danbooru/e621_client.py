@@ -6,7 +6,7 @@ from danbooru.danbooru_client import DanbooruClient
 class E621Client(DanbooruClient):
     def _get_index_params(self):
         page = random.randint(1, 750)
-        return {"limit": "200", "page": str(page)}
+        return {"limit": "100", "page": str(page)}
 
     _title = "e621"
     _index_url = "https://e621.net/posts.json"
