@@ -26,6 +26,8 @@ Just another discord bot
   ```bash 
   python3 . /path/to/your/database.db <your access token>
   ```
+  
+Shutdown is available from within Discord: send `!shutdown` to Katarina as a direct message. This only works, if you are the owner of the bot (specified in the configuration table of the database).
 
 ## Available modules
 
