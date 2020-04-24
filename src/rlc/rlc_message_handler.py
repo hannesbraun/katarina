@@ -42,7 +42,12 @@ class RlcMessageHandler(MessageHandler):
         # Generate the champion(s)
         champions = []
         for i in range(amount):
-            champions.append(rlc_generator.generate())
+            while True:
+                generated_champion = rlc_generator.generate()
+                if generated_champion not in champions:
+                    # Avoid duplicates
+                    champions.append(generated_champion)
+                    break
 
         # Send message (champions separated by new line)
         await full_msg.channel.send("\n".join(champions))
