@@ -1,4 +1,4 @@
 pytube3
 requests
-discord
+discord.py
 pynacl
