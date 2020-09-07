@@ -34,8 +34,8 @@ class RlcMessageHandler(MessageHandler):
         amount = self._extract_amount_argument(raw_msg)
         if amount < 1:
             amount = 1
-        elif amount > 10:
-            amount = 10
+        elif amount > 20:
+            amount = 20
 
         rlc_generator = RlcGenerator()
 
