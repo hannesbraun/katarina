@@ -101,6 +101,7 @@ class RlcGenerator:
                  "Riven",
                  "Rumble",
                  "Ryze",
+                 "Samira",
                  "Sejuani",
                  "Senna",
                  "Sett",
