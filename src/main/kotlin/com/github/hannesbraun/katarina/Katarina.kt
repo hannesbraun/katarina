@@ -1,9 +1,8 @@
 package com.github.hannesbraun.katarina
 
-import com.github.hannesbraun.katarina.modules.rlc.RlcListener
+import com.github.hannesbraun.katarina.modules.rlc.RlcParser
 import net.dv8tion.jda.api.JDABuilder
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
 
 fun main(args: Array<String>) {
     if (args.size != 3) {
@@ -16,5 +15,5 @@ fun main(args: Array<String>) {
     // SchemaUtils.create(Configuration)
 
     val jda = JDABuilder.createDefault(args[2]).build()
-    jda.addEventListener(RlcListener())
+    jda.addEventListener(RlcParser())
 }
