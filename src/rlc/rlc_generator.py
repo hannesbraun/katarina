@@ -104,6 +104,7 @@ class RlcGenerator:
                  "Samira",
                  "Sejuani",
                  "Senna",
+                 "Seraphine",
                  "Sett",
                  "Shaco",
                  "Shen",

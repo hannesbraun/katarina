@@ -1,6 +1,6 @@
 class Configuration:
     def __init__(self, db_connection_wrapper):
-        self.bot_version = "3.1.6"
+        self.bot_version = "3.1.7"
 
         cursor = db_connection_wrapper.connection.cursor()
 
