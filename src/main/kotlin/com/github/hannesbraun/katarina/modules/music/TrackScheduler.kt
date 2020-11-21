@@ -91,6 +91,14 @@ class TrackScheduler(private val player: AudioPlayer, private val textChannel: T
     fun skip() = playNext()
 
     fun sendQueue(textChannel : TextChannel) {
+        if (queue.isEmpty()) {
+            textChannel.sendMessage("The queue is empty.")
+                .delay(1, TimeUnit.MINUTES)
+                .flatMap {it.delete()}
+                .queue()
+            return
+        }
+
         val limitedQueue = if (queue.size > 21) queue.subList(0,21) else queue
         var trackStrings = mutableListOf<String>()
         for ((index, track) in limitedQueue.withIndex()) {
