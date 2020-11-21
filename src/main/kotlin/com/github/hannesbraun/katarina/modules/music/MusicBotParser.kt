@@ -1,45 +1,36 @@
 package com.github.hannesbraun.katarina.modules.music
 
 import com.github.hannesbraun.katarina.modules.KatarinaParser
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import com.github.hannesbraun.katarina.utilities.KatarinaParsingException
 
 class MusicBotParser : KatarinaParser() {
-    val baseCommandMap = mapOf<String, MusicBotBaseCommand>("play" to MusicBotBaseCommand.PLAY,
-            "pause" to MusicBotBaseCommand.PAUSE,
-            "stop" to MusicBotBaseCommand.STOP,
-            "clearqueue" to MusicBotBaseCommand.CLEARQUEUE,
-            "skip" to MusicBotBaseCommand.SKIP,
-            "queue" to MusicBotBaseCommand.QUEUE,
-            "shuffle" to MusicBotBaseCommand.SHUFFLE)
+    fun parse(message: String): MusicBotCommand? {
+        val args = splitArgs(message)
+        val baseCommand = MusicBotBaseCommand.fromString(args[0].toLowerCase()) ?: return null
 
-    fun canHandle(event: MessageReceivedEvent): Boolean {
-        val msg = event.message.contentRaw
-        if (!super.canHandle(msg)) return false
-        return true
-    }
-
-    fun getCommand(event: MessageReceivedEvent): MusicBotCommand {
-        val msg = event.message.contentRaw
-        val args = splitArgs(msg)
-        val baseCommand : MusicBotBaseCommand = baseCommandMap[args[0].toLowerCase()] ?: MusicBotBaseCommand.NONE
-
-        if (baseCommand == MusicBotBaseCommand.PLAY && args.size < 2) {
-            throw IllegalArgumentException("URL for play command is missing")
+        return if (baseCommand == MusicBotBaseCommand.PLAY && args.size < 2) {
+            throw KatarinaParsingException("URL for play command is missing")
+        } else if (baseCommand == MusicBotBaseCommand.PLAY) {
+            MusicBotCommand(baseCommand, args.subList(1, args.size))
+        } else {
+            MusicBotCommand(baseCommand)
         }
-
-        return MusicBotCommand(baseCommand, args)
     }
 }
 
-enum class MusicBotBaseCommand {
-    PLAY,
-    PAUSE,
-    STOP,
-    CLEARQUEUE,
-    SKIP,
-    QUEUE,
-    SHUFFLE,
-    NONE
+enum class MusicBotBaseCommand(val rawCommand : String) {
+    PLAY("play"),
+    PAUSE("pause"),
+    STOP("stop"),
+    CLEAR_QUEUE("clearqueue"),
+    SKIP("skip"),
+    QUEUE("queue"),
+    SHUFFLE("shuffle");
+
+    companion object {
+        private val map = values().associateBy(MusicBotBaseCommand::rawCommand)
+        fun fromString(rawCommand: String) = map[rawCommand]
+    }
 }
 
-data class MusicBotCommand(val baseCommand: MusicBotBaseCommand, val args: List<String>)
+data class MusicBotCommand(val baseCommand: MusicBotBaseCommand, val urls: List<String> = emptyList())
