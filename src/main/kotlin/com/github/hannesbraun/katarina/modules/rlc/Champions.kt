@@ -8,7 +8,7 @@ class Champions {
     fun getRandomChampions(i : Int): List<String> {
         if (i < 1) return emptyList()
         val result = mutableListOf<String>()
-        for (x in 1..i) result.add(champions.random())
+        for (x in 1..i) result.add(getRandomChampion())
         return result
     }
 
@@ -112,8 +112,10 @@ class Champions {
         "Riven",
         "Rumble",
         "Ryze",
+        "Samira",
         "Sejuani",
         "Senna",
+        "Seraphine",
         "Sett",
         "Shaco",
         "Shen",

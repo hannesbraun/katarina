@@ -1,22 +1,24 @@
 package com.github.hannesbraun.katarina.modules.rlc
 
 import com.github.hannesbraun.katarina.modules.KatarinaParser
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import com.github.hannesbraun.katarina.utilities.limit
 
 class RlcParser : KatarinaParser() {
-    val command = "rlc"
+    private val command = "rlc"
 
-    fun canHandle(event: MessageReceivedEvent) : Boolean {
-        val msg = event.message.contentRaw
-        if (!super.canHandle(msg)) return false
+    fun parse(message: String) : RlcCommand? {
+        val args = splitArgs(message)
+        if (args[0].toLowerCase() != command)
+            return null
 
-        val args = splitArgs(msg)
-        return args.isNotEmpty() && args[0].equals(command, ignoreCase = true)
-    }
+        val numberOfChampions = try {
+            if (args.size > 1) args[1].toInt().limit(1, 20) else 1
+        } catch (e : NumberFormatException) {
+            1
+        }
 
-    fun getNumberOfChampions(event: MessageReceivedEvent) : Int {
-        val msg = event.message.contentRaw
-        val args = splitArgs(msg)
-        return if (args.size > 1) args[1].toInt() else 1
+        return RlcCommand(numberOfChampions)
     }
 }
+
+data class RlcCommand(val numberOfChampions: Int = 20)

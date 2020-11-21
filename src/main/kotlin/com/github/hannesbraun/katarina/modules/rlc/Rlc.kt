@@ -9,18 +9,12 @@ class Rlc : KatarinaModule(), MessageReceivedHandler {
 
     private val champions = Champions()
 
-    override fun canHandleMessageReceived(event: MessageReceivedEvent): Boolean = parser.canHandle(event)
+    override fun tryHandleMessageReceived(event: MessageReceivedEvent) : Boolean {
+        val command = parser.parse(event.message.contentRaw) ?: return false
 
-    override fun handleMessageReceived(event: MessageReceivedEvent) {
-        var i : Int = try {
-            parser.getNumberOfChampions(event)
-        } catch (e : NumberFormatException) {
-            0
-        }
-        if (i > 20) i = 20
-
-        val result = champions.getRandomChampions(i)
+        val result = champions.getRandomChampions(command.numberOfChampions)
         val resultMessage = result.joinToString("\n")
-        event.channel.sendMessage(resultMessage)
+        event.channel.sendMessage(resultMessage).queue()
+        return true
     }
 }
