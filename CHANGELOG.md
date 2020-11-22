@@ -4,6 +4,10 @@
 ------------------------------
 *Note: I switched the programming language again. We're using Kotlin now.*
 
+3.1.7 (October 24, 2020)
+------------------------------
+* New League of Legends champion for `rlc`: Seraphine
+
 3.1.6 (September 16, 2020)
 ------------------------------
 * New League of Legends champion for `rlc`: Samira
