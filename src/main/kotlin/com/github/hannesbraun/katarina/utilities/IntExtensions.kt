@@ -1,6 +1,6 @@
 package com.github.hannesbraun.katarina.utilities
 
-fun Int.limit(min : Int, max : Int) : Int {
+fun Int.limit(min: Int, max: Int): Int {
     return if (min > max)
         this
     else if (this < min)
@@ -10,3 +10,5 @@ fun Int.limit(min : Int, max : Int) : Int {
     else
         this
 }
+
+fun Int.toBoolean(): Boolean = this != 0
