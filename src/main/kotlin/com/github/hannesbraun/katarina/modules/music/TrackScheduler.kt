@@ -19,6 +19,11 @@ class TrackScheduler(
     private val queue = Collections.synchronizedList(mutableListOf<AudioTrack>())
     private var running = false
 
+    private val sourcesWithAuthor = listOf(
+        "bandcamp",
+        "twitch"
+    )
+
     override fun onPlayerPause(player: AudioPlayer?) {
     }
 
@@ -29,7 +34,12 @@ class TrackScheduler(
         if (track == null)
             return
 
-        textChannel.sendMessage("**Now playing**: ${track.info.author} - ${track.info.title}")
+        val npString: String = if (track.sourceManager.sourceName in sourcesWithAuthor)
+            "**Now playing**: ${track.info.author} - ${track.info.title}"
+        else
+            "**Now playing**: ${track.info.title}"
+
+        textChannel.sendMessage(npString)
             .deleteAfter(track.duration, TimeUnit.MILLISECONDS)
             .queue()
     }
@@ -99,7 +109,11 @@ class TrackScheduler(
         val limitedQueue = if (queue.size > 21) queue.subList(0, 21) else queue
         var trackStrings = mutableListOf<String>()
         for ((index, track) in limitedQueue.withIndex()) {
-            trackStrings.add("**${index + 1}.** ${track.info.author} - ${track.info.title}".limitWithDots(80))
+            val npString: String = if (track.sourceManager.sourceName in sourcesWithAuthor)
+                "**${index + 1}.** ${track.info.author} - ${track.info.title}"
+            else
+                "**${index + 1}.** ${track.info.title}"
+            trackStrings.add(npString.limitWithDots(80))
         }
         textChannel.sendMessage(trackStrings.joinToString("\n").limit(2000))
             .deleteAfter(MessageDeletionTimes.long)
