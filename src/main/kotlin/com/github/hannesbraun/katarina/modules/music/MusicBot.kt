@@ -8,19 +8,24 @@ import com.github.hannesbraun.katarina.utilities.KatarinaWrongChannelException
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
+import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
-import net.dv8tion.jda.api.managers.AudioManager
+import net.dv8tion.jda.api.requests.restaction.MessageAction
 import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
+object MessageDeletionTimes {
+    /* Time in minutes until a music bot related message will be deleted*/
+    const val short = 1L
+    const val medium = 5L
+    const val long = 1440L
+}
+
 class MusicBot : KatarinaModule(), MessageReceivedHandler {
     private val parser = MusicBotParser()
-
-    /* Time in minutes until a music bot related message will be deleted*/
-    private val messageDeletionTime = 5L
 
     private val playerManager = DefaultAudioPlayerManager()
 
@@ -33,7 +38,7 @@ class MusicBot : KatarinaModule(), MessageReceivedHandler {
         AudioSourceManagers.registerRemoteSources(playerManager)
     }
 
-    override fun tryHandleMessageReceived(event: MessageReceivedEvent) : Boolean {
+    override fun tryHandleMessageReceived(event: MessageReceivedEvent): Boolean {
         val command = parser.parse(event.message.contentRaw) ?: return false
         if (!event.isFromGuild) throw KatarinaGuildOnlyException("${command.baseCommand.rawCommand} is only allowed on a server")
 
@@ -47,16 +52,19 @@ class MusicBot : KatarinaModule(), MessageReceivedHandler {
             MusicBotBaseCommand.SHUFFLE -> shuffle(event)
         }
 
-        event.message.delete().queueAfter(messageDeletionTime, TimeUnit.MINUTES)
+        if (command.baseCommand != MusicBotBaseCommand.QUEUE)
+            event.message.deleteAfter(MessageDeletionTimes.short)
+        else
+            event.message.deleteAfter(MessageDeletionTimes.long)
         return true
     }
 
-    private fun play(event : MessageReceivedEvent, command: MusicBotCommand) {
+    private fun play(event: MessageReceivedEvent, command: MusicBotCommand) {
         val channel = checkSameChannel(event, true)
         val player = connectAndGetPlayer(event, channel)
         val scheduler = schedulers[player]
         if (scheduler == null) {
-            connectionLock.withLock {event.guild.audioManager.closeAudioConnection()}
+            connectionLock.withLock { event.guild.audioManager.closeAudioConnection() }
             player.destroy()
             throw RuntimeException("No track scheduler found for this player")
         }
@@ -66,7 +74,7 @@ class MusicBot : KatarinaModule(), MessageReceivedHandler {
     }
 
     @Synchronized
-    private fun connectAndGetPlayer(event : MessageReceivedEvent, channel : VoiceChannel) : AudioPlayer {
+    private fun connectAndGetPlayer(event: MessageReceivedEvent, channel: VoiceChannel): AudioPlayer {
         val audioManager = event.guild.audioManager
         return if (!audioManager.isConnected) {
             // Connect to voice channel
@@ -96,13 +104,13 @@ class MusicBot : KatarinaModule(), MessageReceivedHandler {
         }
     }
 
-    private fun stop(event : MessageReceivedEvent) {
+    private fun stop(event: MessageReceivedEvent) {
         checkSameChannel(event)
-        connectionLock.withLock {event.guild.audioManager.closeAudioConnection()}
+        connectionLock.withLock { event.guild.audioManager.closeAudioConnection() }
         getPlayer(event)?.destroy()
     }
 
-    private fun pause(event : MessageReceivedEvent) {
+    private fun pause(event: MessageReceivedEvent) {
         checkSameChannel(event)
         schedulers[getPlayer(event)]?.pause()
     }
@@ -128,8 +136,9 @@ class MusicBot : KatarinaModule(), MessageReceivedHandler {
     }
 
     /* Checks if the bot and the user are connected to the same channel. The voice channel the user is connected to will be returned. */
-    private fun checkSameChannel(event : MessageReceivedEvent, allowUnconnectedBot : Boolean = false) : VoiceChannel {
-        val userChannel = event.member?.voiceState?.channel ?: throw KatarinaUnconnectedException("Not connected to a voice channel")
+    private fun checkSameChannel(event: MessageReceivedEvent, allowUnconnectedBot: Boolean = false): VoiceChannel {
+        val userChannel =
+            event.member?.voiceState?.channel ?: throw KatarinaUnconnectedException("Not connected to a voice channel")
         if (!allowUnconnectedBot && !event.guild.audioManager.isConnected) {
             throw KatarinaUnconnectedException("Katarina is not connected to a voice channel")
         } else if (event.guild.audioManager.isConnected && event.guild.audioManager.connectedChannel?.id != userChannel.id) {
@@ -138,5 +147,19 @@ class MusicBot : KatarinaModule(), MessageReceivedHandler {
         return userChannel
     }
 
-    private fun getPlayer(event: MessageReceivedEvent) : AudioPlayer? = (event.guild.audioManager.sendingHandler as AudioPlayerSendHandler).audioPlayer
+    private fun getPlayer(event: MessageReceivedEvent): AudioPlayer? =
+        (event.guild.audioManager.sendingHandler as AudioPlayerSendHandler).audioPlayer
 }
+
+fun Message.deleteAfter(minutes: Long) {
+    this.delete().queueAfter(minutes, TimeUnit.MINUTES)
+}
+
+fun MessageAction.deleteAfter(minutes: Long) =
+    this.delay(minutes, TimeUnit.MINUTES)
+        .flatMap { it.delete() }
+
+
+fun MessageAction.deleteAfter(duration: Long, unit: TimeUnit) =
+    this.delay(duration, unit)
+        .flatMap { it.delete() }

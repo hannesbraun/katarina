@@ -8,11 +8,14 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
 import net.dv8tion.jda.api.entities.TextChannel
-import net.dv8tion.jda.api.managers.AudioManager
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class TrackScheduler(private val player: AudioPlayer, private val textChannel: TextChannel, private val disconnector: () -> Unit) : AudioEventAdapter() {
+class TrackScheduler(
+    private val player: AudioPlayer,
+    private val textChannel: TextChannel,
+    private val disconnector: () -> Unit
+) : AudioEventAdapter() {
     private val queue = Collections.synchronizedList(mutableListOf<AudioTrack>())
     private var running = false
 
@@ -27,8 +30,7 @@ class TrackScheduler(private val player: AudioPlayer, private val textChannel: T
             return
 
         textChannel.sendMessage("**Now playing**: ${track.info.author} - ${track.info.title}")
-            .delay(track.duration, TimeUnit.MILLISECONDS)
-            .flatMap{it.delete()}
+            .deleteAfter(track.duration, TimeUnit.MILLISECONDS)
             .queue()
     }
 
@@ -38,8 +40,7 @@ class TrackScheduler(private val player: AudioPlayer, private val textChannel: T
             AudioTrackEndReason.FINISHED -> playNext()
             AudioTrackEndReason.LOAD_FAILED -> {
                 textChannel.sendMessage("Loading ${track?.info?.title} failed.")
-                    .delay(10, TimeUnit.MINUTES)
-                    .flatMap{it.delete()}
+                    .deleteAfter(MessageDeletionTimes.medium)
                     .queue()
                 playNext()
             }
@@ -56,16 +57,14 @@ class TrackScheduler(private val player: AudioPlayer, private val textChannel: T
     }
 
     override fun onTrackException(player: AudioPlayer?, track: AudioTrack?, exception: FriendlyException?) {
-        textChannel.sendMessage("${track?.info?.title} is stuck. Skipping this track...")
-            .delay(24, TimeUnit.HOURS)
-            .flatMap{it.delete()}
+        textChannel.sendMessage("Exception while playing ${track?.info?.title}. Skipping this track...")
+            .deleteAfter(MessageDeletionTimes.long)
             .queue()
     }
 
     override fun onTrackStuck(player: AudioPlayer?, track: AudioTrack?, thresholdMs: Long) {
         textChannel.sendMessage("The track ${track?.info?.title} is stuck. Skipping this track...")
-            .delay(10, TimeUnit.MINUTES)
-            .flatMap{it.delete()}
+            .deleteAfter(MessageDeletionTimes.medium)
             .queue()
         playNext()
     }
@@ -75,8 +74,7 @@ class TrackScheduler(private val player: AudioPlayer, private val textChannel: T
         if (running) {
             queue.add(track)
             textChannel.sendMessage("Successfully added to queue.")
-                .delay(30, TimeUnit.SECONDS)
-                .flatMap{it.delete()}
+                .deleteAfter(MessageDeletionTimes.short)
                 .queue()
         } else {
             running = true
@@ -90,23 +88,21 @@ class TrackScheduler(private val player: AudioPlayer, private val textChannel: T
 
     fun skip() = playNext()
 
-    fun sendQueue(textChannel : TextChannel) {
+    fun sendQueue(textChannel: TextChannel) {
         if (queue.isEmpty()) {
             textChannel.sendMessage("The queue is empty.")
-                .delay(1, TimeUnit.MINUTES)
-                .flatMap {it.delete()}
+                .deleteAfter(MessageDeletionTimes.medium)
                 .queue()
             return
         }
 
-        val limitedQueue = if (queue.size > 21) queue.subList(0,21) else queue
+        val limitedQueue = if (queue.size > 21) queue.subList(0, 21) else queue
         var trackStrings = mutableListOf<String>()
         for ((index, track) in limitedQueue.withIndex()) {
-            trackStrings.add("**${index+1}.** ${track.info.author} - ${track.info.title}".limitWithDots(80))
+            trackStrings.add("**${index + 1}.** ${track.info.author} - ${track.info.title}".limitWithDots(80))
         }
         textChannel.sendMessage(trackStrings.joinToString("\n").limit(2000))
-            .delay(7, TimeUnit.DAYS)
-            .flatMap {it.delete()}
+            .deleteAfter(MessageDeletionTimes.long)
             .queue()
     }
 
