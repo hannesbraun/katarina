@@ -7,6 +7,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
@@ -71,11 +72,17 @@ open class DanbooruClient(private val scope: CoroutineScope) {
         while (true) {
             // As soon as the channel is full the client will already request postBufferSize new posts
             // So sometimes, there can effectively be postBufferSize posts ready to use
-            val response = HttpClient(CIO).use { client ->
-                client.get<String>(indexUrl) {
-                    header("User-Agent", "Katarina ${KatarinaMeta.version}")
-                    getIndexParameters().forEach { parameter(it.first, it.second) }
+            val response = try {
+                HttpClient(CIO).use { client ->
+                    client.get<String>(indexUrl) {
+                        header("User-Agent", "Katarina ${KatarinaMeta.version}")
+                        getIndexParameters().forEach { parameter(it.first, it.second) }
+                    }
                 }
+            } catch (e: ServerResponseException) {
+                LoggerFactory.getLogger("DanbooruClient").error(e.message)
+                delay(3600000)
+                continue
             }
 
             // Parse JSON
