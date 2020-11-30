@@ -4,12 +4,12 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlin.random.Random
 
-class KonachanClient(private val scope: CoroutineScope) : DanbooruClient(scope) {
+class KonachanClient(scope: CoroutineScope) : DanbooruClient(scope) {
     override val name = "Konachan"
     override val indexUrl = "https://konachan.com/post.json"
 
     override fun getIndexParameters(): List<Pair<String, String>> {
-        val page = Random.nextInt(1, 12000)
+        val page = Random.nextInt(1, 2550)
         return listOf(Pair("limit", postBufferSize.toString()), Pair("page", page.toString()))
     }
 

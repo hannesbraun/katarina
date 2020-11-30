@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlin.random.Random
 
-class YandereClient(private val scope: CoroutineScope) : DanbooruClient(scope) {
+class YandereClient(scope: CoroutineScope) : DanbooruClient(scope) {
     override val indexUrl = "https://yande.re/post.json"
     override val name = "Yande.re"
 

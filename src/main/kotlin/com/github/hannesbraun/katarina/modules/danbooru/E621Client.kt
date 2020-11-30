@@ -6,7 +6,7 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlin.random.Random
 
-class E621Client(private val scope: CoroutineScope) : DanbooruClient(scope) {
+class E621Client(scope: CoroutineScope) : DanbooruClient(scope) {
     override val name = "e621"
     override val indexUrl = "https://e621.net/posts.json"
 

@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlin.random.Random
 
-class GelbooruClient(private val scope: CoroutineScope) : DanbooruClient(scope) {
+class GelbooruClient(scope: CoroutineScope) : DanbooruClient(scope) {
     override val indexUrl = "https://gelbooru.com/index.php"
     override val name = "Gelbooru"
 
