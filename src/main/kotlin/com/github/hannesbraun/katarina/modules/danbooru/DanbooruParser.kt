@@ -14,6 +14,7 @@ data class DanbooruCommand(val site: DanbooruSite?, val explicitOnly: Boolean)
 enum class DanbooruSite(val commandRaw: String) {
     DANBOORU("danbooru"),
     E621("e621"),
+    FURRYBOORU("furrybooru"),
     GELBOORU("gelbooru"),
     KONACHAN("konachan"),
     RULE34("rule34"),

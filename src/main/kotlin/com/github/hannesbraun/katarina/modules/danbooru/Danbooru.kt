@@ -15,6 +15,7 @@ class Danbooru(private val scope: CoroutineScope) : KatarinaModule(), MessageRec
         mapOf(
             DanbooruSite.DANBOORU to DanbooruClient(scope),
             DanbooruSite.E621 to E621Client(scope),
+            // DanbooruSite.FURRYBOORU to FurryBooruClient(scope),
             DanbooruSite.GELBOORU to GelbooruClient(scope),
             DanbooruSite.KONACHAN to KonachanClient(scope),
             DanbooruSite.RULE34 to Rule34Client(scope),
@@ -31,7 +32,7 @@ class Danbooru(private val scope: CoroutineScope) : KatarinaModule(), MessageRec
         command.site ?: return false
 
         checkAutorization(event)
-        val client = providers[command.site] ?: return false
+        val client = providers[command.site] ?: return true
 
         scope.launch {
             val post = client.getPostAsEmbed(command.explicitOnly)
