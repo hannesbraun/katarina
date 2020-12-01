@@ -86,7 +86,7 @@ class ClassicCommandSystem(private val database: Database, private val config: K
                                 channelWhitelisted = true
                             }
                         }
-                        RestrictionType.USER_BLACKLIST -> {
+                        RestrictionType.CHANNEL_BLACKLIST -> {
                             if (it[ClassicCommandRestriction.affectedId] == event.channel.id) {
                                 channelBlacklisted = true
                             }
@@ -161,6 +161,8 @@ class ClassicCommandSystem(private val database: Database, private val config: K
                             SetccAction.DESCRIPTION -> it[ClassicCommand.description] = parsedCommand.setccValue
                             SetccAction.ACTIVE -> it[ClassicCommand.active] = parsedCommand.setccValue.toInt()
                             SetccAction.NSFW -> it[ClassicCommand.nsfw] = parsedCommand.setccValue.toInt()
+                            SetccAction.RESTRICTION -> Unit /* Managing restrictions is handled in the next major if blocks in this function */
+                            SetccAction.DELETE_RESTRICTION -> Unit
                         }
                     }
                     event.channel.sendMessage("Command `${config.prefix}${parsedCommand.affectedCommand}` (action: ${parsedCommand.action?.action ?: "null"}) updated with value:\n${parsedCommand.setccValue}")

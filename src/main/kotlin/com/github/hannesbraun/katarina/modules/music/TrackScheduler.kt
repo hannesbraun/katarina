@@ -54,6 +54,8 @@ class TrackScheduler(
                     .queue()
                 playNext()
             }
+            AudioTrackEndReason.REPLACED -> Unit // No need to do something here since replacing or stopping was done
+            AudioTrackEndReason.STOPPED -> Unit // on purpose somewhere else in this class
         }
     }
 

@@ -79,7 +79,10 @@ open class DanbooruClient(private val scope: CoroutineScope) {
                         getIndexParameters().forEach { parameter(it.first, it.second) }
                     }
                 }
-            } catch (e: ServerResponseException) {
+            } catch (e: Exception) {
+                // Catching everything seems hacky... but this method should not terminate
+                // If it would, the client would not work anymore as soon as it terminates
+                // So it's probably fine
                 LoggerFactory.getLogger("DanbooruClient").error(e.message)
                 delay(3600000)
                 continue
