@@ -14,3 +14,5 @@ fun String.limitWithDots(max : Int) : String {
         this
     }
 }
+
+fun String.removeRedundantSpaces() = this.replace(Regex(" +"), " ")
