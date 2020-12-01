@@ -1,9 +1,10 @@
 package com.github.hannesbraun.katarina.modules.music
 
+import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaParser
 import com.github.hannesbraun.katarina.utilities.KatarinaParsingException
 
-class MusicBotParser : KatarinaParser() {
+class MusicBotParser(config: KatarinaConfiguration) : KatarinaParser(config) {
     fun parse(message: String): MusicBotCommand? {
         val args = splitArgs(message)
         val baseCommand = MusicBotBaseCommand.fromString(args[0].toLowerCase()) ?: return null

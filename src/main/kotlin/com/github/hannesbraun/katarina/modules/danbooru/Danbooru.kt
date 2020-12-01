@@ -1,5 +1,6 @@
 package com.github.hannesbraun.katarina.modules.danbooru
 
+import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
 import com.github.hannesbraun.katarina.utilities.KatarinaGuildOnlyException
@@ -8,8 +9,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
-class Danbooru(private val scope: CoroutineScope) : KatarinaModule(), MessageReceivedHandler {
-    private val parser = DanbooruParser()
+class Danbooru(private val scope: CoroutineScope, config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHandler {
+    private val parser = DanbooruParser(config)
 
     private val providers =
         mapOf(

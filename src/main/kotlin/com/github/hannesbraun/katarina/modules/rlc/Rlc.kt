@@ -1,11 +1,12 @@
 package com.github.hannesbraun.katarina.modules.rlc
 
+import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
-class Rlc : KatarinaModule(), MessageReceivedHandler {
-    private val parser = RlcParser()
+class Rlc(config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHandler {
+    private val parser = RlcParser(config)
 
     private val champions = Champions()
 

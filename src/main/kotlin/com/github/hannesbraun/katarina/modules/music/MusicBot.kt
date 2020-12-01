@@ -1,5 +1,6 @@
 package com.github.hannesbraun.katarina.modules.music
 
+import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
 import com.github.hannesbraun.katarina.utilities.KatarinaGuildOnlyException
@@ -8,6 +9,7 @@ import com.github.hannesbraun.katarina.utilities.KatarinaWrongChannelException
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
+import kotlinx.coroutines.CoroutineScope
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
@@ -24,8 +26,9 @@ object MessageDeletionTimes {
     const val long = 1440L
 }
 
-class MusicBot : KatarinaModule(), MessageReceivedHandler {
-    private val parser = MusicBotParser()
+class MusicBot(private val scope: CoroutineScope, private val config: KatarinaConfiguration) : KatarinaModule(),
+    MessageReceivedHandler {
+    private val parser = MusicBotParser(config)
 
     private val playerManager = DefaultAudioPlayerManager()
 

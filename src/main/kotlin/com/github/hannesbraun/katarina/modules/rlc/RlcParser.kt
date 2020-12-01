@@ -1,9 +1,10 @@
 package com.github.hannesbraun.katarina.modules.rlc
 
+import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaParser
 import com.github.hannesbraun.katarina.utilities.limit
 
-class RlcParser : KatarinaParser() {
+class RlcParser(config: KatarinaConfiguration) : KatarinaParser(config) {
     private val command = "rlc"
 
     fun parse(message: String) : RlcCommand? {

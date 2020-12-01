@@ -1,8 +1,9 @@
 package com.github.hannesbraun.katarina.modules.danbooru
 
+import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaParser
 
-class DanbooruParser : KatarinaParser() {
+class DanbooruParser(config: KatarinaConfiguration) : KatarinaParser(config) {
     fun parse(message: String): DanbooruCommand {
         val arg = splitArgs(message)[0].toLowerCase()
         return DanbooruCommand(DanbooruSite.fromString(arg.removeSuffix("+")), arg[arg.length - 1] == '+')
