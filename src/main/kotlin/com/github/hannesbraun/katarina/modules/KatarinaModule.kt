@@ -1,4 +1,3 @@
 package com.github.hannesbraun.katarina.modules
 
-abstract class KatarinaModule {
-}
+abstract class KatarinaModule

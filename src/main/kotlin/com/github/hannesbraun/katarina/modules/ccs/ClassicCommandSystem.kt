@@ -67,8 +67,7 @@ class ClassicCommandSystem(private val database: Database, private val config: K
 
                 // Check restrictions
                 restrictionQuery.forEach {
-                    val type = RestrictionType.fromString(it[ClassicCommandRestriction.type])
-                    when (type) {
+                    when (RestrictionType.fromString(it[ClassicCommandRestriction.type])) {
                         RestrictionType.USER_WHITELIST -> {
                             userWhitelistActive = true
                             if (it[ClassicCommandRestriction.affectedId] == event.author.id) {
@@ -143,11 +142,11 @@ class ClassicCommandSystem(private val database: Database, private val config: K
                     // Command not existing yet
                     // Create new command entry (because of setcc message command)
                     ClassicCommand.insert {
-                        it[ClassicCommand.command] = parsedCommand.affectedCommand
-                        it[ClassicCommand.serverId] = event.guild.id
-                        it[ClassicCommand.message] = parsedCommand.setccValue
-                        it[ClassicCommand.nsfw] = 0
-                        it[ClassicCommand.active] = 1
+                        it[command] = parsedCommand.affectedCommand
+                        it[serverId] = event.guild.id
+                        it[message] = parsedCommand.setccValue
+                        it[nsfw] = 0
+                        it[active] = 1
                     }
                     event.channel.sendMessage("Command `${config.prefix}${parsedCommand.affectedCommand}` created with value:\n${parsedCommand.setccValue}")
                         .queue()
@@ -157,10 +156,10 @@ class ClassicCommandSystem(private val database: Database, private val config: K
                         (ClassicCommand.command eq parsedCommand.affectedCommand) and (ClassicCommand.serverId eq event.guild.id)
                     }) {
                         when (parsedCommand.action) {
-                            SetccAction.MESSAGE -> it[ClassicCommand.message] = parsedCommand.setccValue
-                            SetccAction.DESCRIPTION -> it[ClassicCommand.description] = parsedCommand.setccValue
-                            SetccAction.ACTIVE -> it[ClassicCommand.active] = parsedCommand.setccValue.toInt()
-                            SetccAction.NSFW -> it[ClassicCommand.nsfw] = parsedCommand.setccValue.toInt()
+                            SetccAction.MESSAGE -> it[message] = parsedCommand.setccValue
+                            SetccAction.DESCRIPTION -> it[description] = parsedCommand.setccValue
+                            SetccAction.ACTIVE -> it[active] = parsedCommand.setccValue.toInt()
+                            SetccAction.NSFW -> it[nsfw] = parsedCommand.setccValue.toInt()
                             SetccAction.RESTRICTION -> Unit /* Managing restrictions is handled in the next major if blocks in this function */
                             SetccAction.DELETE_RESTRICTION -> Unit
                         }
@@ -182,10 +181,10 @@ class ClassicCommandSystem(private val database: Database, private val config: K
                 // Create restriction if not existing yet
                 // TODO("Does insertIgnore as insert or if existing do nothing?")
                 ClassicCommandRestriction.insertIgnore {
-                    it[ClassicCommandRestriction.command] = parsedCommand.affectedCommand
-                    it[ClassicCommandRestriction.serverId] = event.guild.id
-                    it[ClassicCommandRestriction.type] = parsedCommand.restrictionType.restriction
-                    it[ClassicCommandRestriction.affectedId] = parsedCommand.affectedId
+                    it[command] = parsedCommand.affectedCommand
+                    it[serverId] = event.guild.id
+                    it[type] = parsedCommand.restrictionType.restriction
+                    it[affectedId] = parsedCommand.affectedId
                 }
                 event.channel.sendMessage("Restriction of type ${parsedCommand.restrictionType.restriction} with id ${parsedCommand.affectedId} for command `${config.prefix}${parsedCommand.affectedCommand}` was added.")
                     .queue()
@@ -212,10 +211,10 @@ class ClassicCommandSystem(private val database: Database, private val config: K
         var active: Boolean = true
         var nsfw: Boolean = false
         var found = false
-        var userWhitelist = mutableListOf<String>()
-        var userBlacklist = mutableListOf<String>()
-        var channelWhitelist = mutableListOf<String>()
-        var channelBlacklist = mutableListOf<String>()
+        val userWhitelist = mutableListOf<String>()
+        val userBlacklist = mutableListOf<String>()
+        val channelWhitelist = mutableListOf<String>()
+        val channelBlacklist = mutableListOf<String>()
 
         transaction(database) {
             ClassicCommand.select {
@@ -294,7 +293,7 @@ class ClassicCommandSystem(private val database: Database, private val config: K
 
         val baseMessage = "**Available commands for your server:**"
         var message = baseMessage
-        var discordMessages = mutableListOf<String>()
+        val discordMessages = mutableListOf<String>()
         for (command in commands) {
             val newMessage = message + "\n" + command
             message = if (newMessage.length > 2000) {

@@ -2,7 +2,7 @@ package com.github.hannesbraun.katarina.modules.rlc
 
 class Champions {
     fun getRandomChampion(): String {
-        return champions.random();
+        return champions.random()
     }
 
     fun getRandomChampions(i : Int): List<String> {

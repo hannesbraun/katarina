@@ -23,7 +23,7 @@ enum class DanbooruSite(val commandRaw: String) {
     YANDERE("yandere");
 
     companion object {
-        private val map = DanbooruSite.values().associateBy(DanbooruSite::commandRaw)
+        private val map = values().associateBy(DanbooruSite::commandRaw)
         fun fromString(commandRaw: String) = map[commandRaw]
     }
 }

@@ -109,7 +109,7 @@ class TrackScheduler(
         }
 
         val limitedQueue = if (queue.size > 21) queue.subList(0, 21) else queue
-        var trackStrings = mutableListOf<String>()
+        val trackStrings = mutableListOf<String>()
         for ((index, track) in limitedQueue.withIndex()) {
             val npString: String = if (track.sourceManager.sourceName in sourcesWithAuthor)
                 "**${index + 1}.** ${track.info.author} - ${track.info.title}"

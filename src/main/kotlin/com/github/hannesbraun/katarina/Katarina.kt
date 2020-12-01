@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
 import java.sql.Connection
 
 object KatarinaMeta {
-    val version = "4.0.0-SNAPSHOT"
+    const val version = "4.0.0-SNAPSHOT"
 }
 
 fun main(args: Array<String>) {
