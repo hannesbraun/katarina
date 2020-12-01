@@ -5,7 +5,7 @@ class Champions {
         return champions.random()
     }
 
-    fun getRandomChampions(i : Int): List<String> {
+    fun getRandomChampions(i: Int): List<String> {
         if (i < 1) return emptyList()
         val result = mutableListOf<String>()
         for (x in 1..i) result.add(getRandomChampion())

@@ -11,7 +11,7 @@ class IntExtensionsTest {
         Assertions.assertEquals(42, 42.limit(0, 50))
         Assertions.assertEquals(0, (-61).limit(0, 50))
         Assertions.assertEquals(50, 142.limit(0, 50))
-        Assertions.assertEquals(100, 100.limit(5,-5))
+        Assertions.assertEquals(100, 100.limit(5, -5))
     }
 
     @Test

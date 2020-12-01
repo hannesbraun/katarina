@@ -10,7 +10,7 @@ class Rlc(config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHand
 
     private val champions = Champions()
 
-    override fun tryHandleMessageReceived(event: MessageReceivedEvent) : Boolean {
+    override fun tryHandleMessageReceived(event: MessageReceivedEvent): Boolean {
         val command = parser.parse(event.message.contentRaw) ?: return false
 
         val result = champions.getRandomChampions(command.numberOfChampions)

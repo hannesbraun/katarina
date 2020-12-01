@@ -6,7 +6,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import net.dv8tion.jda.api.entities.TextChannel
 
-class LoadResultHandler(private val scheduler: TrackScheduler, private val textChannel: TextChannel) : AudioLoadResultHandler {
+class LoadResultHandler(private val scheduler: TrackScheduler, private val textChannel: TextChannel) :
+    AudioLoadResultHandler {
     override fun trackLoaded(track: AudioTrack?) {
         if (track != null)
             scheduler.queue(track)

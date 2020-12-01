@@ -3,7 +3,7 @@ package com.github.hannesbraun.katarina.database
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 
-object ClassicCommand: Table("classic_command") {
+object ClassicCommand : Table("classic_command") {
     val command: Column<String> = text("command")
     val serverId: Column<String> = text("server_id")
     val message: Column<String> = text("message")
@@ -13,7 +13,7 @@ object ClassicCommand: Table("classic_command") {
     override val primaryKey = PrimaryKey(command, serverId)
 }
 
-object ClassicCommandRestriction: Table("classic_command_restriction") {
+object ClassicCommandRestriction : Table("classic_command_restriction") {
     val command: Column<String> = text("command")
     val serverId: Column<String> = text("server_id")
     val type: Column<String> = text("type")
@@ -21,13 +21,13 @@ object ClassicCommandRestriction: Table("classic_command_restriction") {
     override val primaryKey = PrimaryKey(command, serverId, type, affectedId)
 }
 
-object Configuration: Table("configuration") {
+object Configuration : Table("configuration") {
     val key: Column<String> = text("key")
     val value: Column<String> = text("value")
     override val primaryKey = PrimaryKey(key)
 }
 
-object Gif: Table("gif") {
+object Gif : Table("gif") {
     val command: Column<String> = text("command")
     val url: Column<String> = text("url")
     val active: Column<Int> = integer("active")
@@ -35,7 +35,7 @@ object Gif: Table("gif") {
     override val primaryKey = PrimaryKey(command, url)
 }
 
-object Joke: Table("joke") {
+object Joke : Table("joke") {
     val heading: Column<String?> = text("heading").nullable()
     val text: Column<String> = text("text")
     val active: Column<Int> = integer("active").default(1)

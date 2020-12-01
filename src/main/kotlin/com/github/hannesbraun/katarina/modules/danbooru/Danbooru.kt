@@ -9,7 +9,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
-class Danbooru(private val scope: CoroutineScope, config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHandler {
+class Danbooru(private val scope: CoroutineScope, config: KatarinaConfiguration) : KatarinaModule(),
+    MessageReceivedHandler {
     private val parser = DanbooruParser(config)
 
     private val providers =

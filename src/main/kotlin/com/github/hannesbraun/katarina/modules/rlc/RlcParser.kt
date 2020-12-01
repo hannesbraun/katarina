@@ -7,14 +7,14 @@ import com.github.hannesbraun.katarina.utilities.limit
 class RlcParser(config: KatarinaConfiguration) : KatarinaParser(config) {
     private val command = "rlc"
 
-    fun parse(message: String) : RlcCommand? {
+    fun parse(message: String): RlcCommand? {
         val args = splitArgs(message)
         if (args[0].toLowerCase() != command)
             return null
 
         val numberOfChampions = try {
             if (args.size > 1) args[1].toInt().limit(1, 20) else 1
-        } catch (e : NumberFormatException) {
+        } catch (e: NumberFormatException) {
             1
         }
 

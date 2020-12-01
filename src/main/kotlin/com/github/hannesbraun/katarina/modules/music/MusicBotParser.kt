@@ -19,7 +19,7 @@ class MusicBotParser(config: KatarinaConfiguration) : KatarinaParser(config) {
     }
 }
 
-enum class MusicBotBaseCommand(val rawCommand : String) {
+enum class MusicBotBaseCommand(val rawCommand: String) {
     PLAY("play"),
     PAUSE("pause"),
     STOP("stop"),

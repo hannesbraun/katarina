@@ -141,7 +141,8 @@ class MusicBot(private val scope: CoroutineScope, private val config: KatarinaCo
     /* Checks if the bot and the user are connected to the same channel. The voice channel the user is connected to will be returned. */
     private fun checkSameChannel(event: MessageReceivedEvent, allowUnconnectedBot: Boolean = false): VoiceChannel {
         val userChannel =
-            event.member?.voiceState?.channel ?: throw KatarinaUnconnectedException("You are not connected to a voice channel.")
+            event.member?.voiceState?.channel
+                ?: throw KatarinaUnconnectedException("You are not connected to a voice channel.")
         if (!allowUnconnectedBot && !event.guild.audioManager.isConnected) {
             throw KatarinaUnconnectedException("${config.botName} is not connected to a voice channel")
         } else if (event.guild.audioManager.isConnected && event.guild.audioManager.connectedChannel?.id != userChannel.id) {
