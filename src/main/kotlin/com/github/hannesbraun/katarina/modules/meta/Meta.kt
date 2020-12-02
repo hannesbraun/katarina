@@ -21,8 +21,8 @@ class Meta(config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHan
                                   This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details: https://www.gnu.org/licenses/agpl-3.0-standalone.html"""
         .trimIndent()
 
-    // TODO
-    private val helpMessage = "Reserved for future use"
+    private val helpMessage =
+        "An overview about the available commands is available here: https://github.com/hannesbraun/katarina/blob/master/README.md"
 
     private val sourceMessage = "Have a look at the code I'm made of: https://github.com/hannesbraun/katarina"
 
@@ -33,7 +33,7 @@ class Meta(config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHan
         event.channel.sendMessage(
             when (metaCommand) {
                 MetaCommand.ABOUT -> aboutMessage
-                MetaCommand.HELP -> return false
+                MetaCommand.HELP -> helpMessage
                 MetaCommand.SOURCE -> sourceMessage
                 MetaCommand.UPTIME -> "Uptime: ${
                     (currentTimeMillis() - startTime).toDuration(DurationUnit.MILLISECONDS)
