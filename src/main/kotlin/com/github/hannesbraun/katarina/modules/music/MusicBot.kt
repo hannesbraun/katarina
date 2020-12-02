@@ -9,15 +9,17 @@ import com.github.hannesbraun.katarina.utilities.KatarinaWrongChannelException
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import net.dv8tion.jda.api.managers.AudioManager
 import net.dv8tion.jda.api.requests.restaction.MessageAction
+import org.slf4j.LoggerFactory
 import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
 
 object MessageDeletionTimes {
     /* Time in minutes until a music bot related message will be deleted*/
@@ -34,8 +36,8 @@ class MusicBot(private val scope: CoroutineScope, private val config: KatarinaCo
 
     private val schedulers = mutableMapOf<AudioPlayer, TrackScheduler>()
 
-    /* Lock for opening and closing connections */
-    private val connectionLock = ReentrantLock()
+    /* Mutex for opening and closing connections */
+    private val connectionMutex = Mutex()
 
     init {
         AudioSourceManagers.registerRemoteSources(playerManager)
@@ -64,53 +66,69 @@ class MusicBot(private val scope: CoroutineScope, private val config: KatarinaCo
 
     private fun play(event: MessageReceivedEvent, command: MusicBotCommand) {
         val channel = checkSameChannel(event, true)
-        val player = connectAndGetPlayer(event, channel)
-        val scheduler = schedulers[player]
-        if (scheduler == null) {
-            connectionLock.withLock { event.guild.audioManager.closeAudioConnection() }
-            player.destroy()
-            throw RuntimeException("No track scheduler found for this player")
-        }
-        for (url in command.urls) {
-            playerManager.loadItem(url, LoadResultHandler(scheduler, event.textChannel))
+        scope.launch {
+            val player = connectAndGetPlayer(event, channel)
+            val scheduler = schedulers[player]
+            if (scheduler == null) {
+                connectionMutex.withLock { event.guild.audioManager.closeAudioConnection() }
+                player.destroy()
+                LoggerFactory.getLogger("MusicBot").error("No track scheduler found for this player")
+                return@launch
+            }
+            for (url in command.urls) {
+                playerManager.loadItem(url, LoadResultHandler(scheduler, event.textChannel, scheduler.scope))
+            }
         }
     }
 
-    @Synchronized
-    private fun connectAndGetPlayer(event: MessageReceivedEvent, channel: VoiceChannel): AudioPlayer {
+    private suspend fun connectAndGetPlayer(event: MessageReceivedEvent, channel: VoiceChannel): AudioPlayer {
         val audioManager = event.guild.audioManager
-        return if (!audioManager.isConnected) {
-            // Connect to voice channel
-            connectionLock.withLock { audioManager.openAudioConnection(channel) }
+        return connectionMutex.withLock {
+            if (!audioManager.isConnected) {
+                // Connect to voice channel
+                audioManager.openAudioConnection(channel)
 
-            // Create player
-            val player = playerManager.createPlayer()
-            val scheduler = TrackScheduler(player, event.textChannel) {
-                connectionLock.withLock { audioManager.closeAudioConnection() }
-                player.destroy()
-            }
-            player.addListener(scheduler)
-            schedulers[player] = scheduler
+                // Create player
+                val player = playerManager.createPlayer()
+                val scheduler = TrackScheduler(player, event.textChannel, CoroutineScope(Dispatchers.Unconfined)) {
+                    disconnector(audioManager, player)
+                }
+                player.addListener(scheduler)
+                schedulers[player] = scheduler
 
-            // Set sending handler for JDA
-            val sendingHandler = AudioPlayerSendHandler(player)
-            audioManager.sendingHandler = sendingHandler
-            player
-        } else {
-            // Connection already established
-            val sendingHandler = audioManager.sendingHandler
-            if (sendingHandler is AudioPlayerSendHandler) {
-                sendingHandler.audioPlayer
+                // Set sending handler for JDA
+                val sendingHandler = AudioPlayerSendHandler(player)
+                audioManager.sendingHandler = sendingHandler
+                player
             } else {
-                throw RuntimeException("Sending handler is not an instance of AudioPlayerSendHandler")
+                // Connection already established
+                // If the bot will be disconnected during the following statements, the command will simply be ignored
+                // -> This is fine
+                val sendingHandler = audioManager.sendingHandler
+                if (sendingHandler is AudioPlayerSendHandler) {
+                    sendingHandler.audioPlayer
+                } else {
+                    throw RuntimeException("Sending handler is not an instance of AudioPlayerSendHandler")
+                }
             }
         }
     }
 
     private fun stop(event: MessageReceivedEvent) {
         checkSameChannel(event)
-        connectionLock.withLock { event.guild.audioManager.closeAudioConnection() }
-        getPlayer(event)?.destroy()
+        disconnector(event.guild.audioManager, getPlayer(event))
+    }
+
+    private fun disconnector(audioManager: AudioManager, player: AudioPlayer?) {
+        GlobalScope.launch {
+            connectionMutex.withLock {
+                audioManager.closeAudioConnection()
+                audioManager.sendingHandler = null
+                schedulers[player]?.scope?.cancel()
+                player?.destroy()
+                schedulers.remove(player)
+            }
+        }
     }
 
     private fun pause(event: MessageReceivedEvent) {
@@ -138,7 +156,10 @@ class MusicBot(private val scope: CoroutineScope, private val config: KatarinaCo
         schedulers[getPlayer(event)]?.shuffle()
     }
 
-    /* Checks if the bot and the user are connected to the same channel. The voice channel the user is connected to will be returned. */
+    /* Checks if the bot and the user are connected to the same channel. The voice channel the user is connected to will be returned.
+    * No need to get worried about concurrency here: if the user disconnects directly after executing the command, that's how it is.
+    * Whatever... the only thing that is important is the connection state of the bot. But this will be checked again when actually executing something.
+    */
     private fun checkSameChannel(event: MessageReceivedEvent, allowUnconnectedBot: Boolean = false): VoiceChannel {
         val userChannel =
             event.member?.voiceState?.channel
