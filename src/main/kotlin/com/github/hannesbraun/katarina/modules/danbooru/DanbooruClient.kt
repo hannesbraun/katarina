@@ -68,7 +68,7 @@ open class DanbooruClient(private val scope: CoroutineScope) {
         return listOf(Pair("limit", postBufferSize.toString()), Pair("page", page.toString()))
     }
 
-    private suspend fun providePosts(channel: SendChannel<DanbooruPost>) {
+    private suspend fun providePosts(channel: SendChannel<DanbooruPost>): Nothing {
         while (true) {
             // As soon as the channel is full the client will already request postBufferSize new posts
             // So sometimes, there can effectively be postBufferSize posts ready to use
