@@ -16,8 +16,8 @@ class ClassicCommandSystemParser(config: KatarinaConfiguration) : KatarinaParser
                 SetccAction.fromString(args[2])
                     ?: throw KatarinaCCSException("${args[2]}: Invalid action for `${config.prefix}setcc`.")
 
-            if (action == SetccAction.RESTRICTION || action == SetccAction.DELETE_RESTRICTION && args.size < 5) throw KatarinaCCSException(
-                "Not enough arguments. Usage: `${config.prefix}setcc <command> <action> <value>`"
+            if ((action == SetccAction.RESTRICTION || action == SetccAction.DELETE_RESTRICTION) && args.size < 5) throw KatarinaCCSException(
+                "Not enough arguments. Usage: `${config.prefix}setcc <command> <${SetccAction.RESTRICTION.action} or ${SetccAction.DELETE_RESTRICTION.action}> <restriction type> <affected id>`"
             )
 
             val value = when (action) {

@@ -179,7 +179,6 @@ class ClassicCommandSystem(private val database: Database, private val config: K
                     .queue()
             } else if (parsedCommand.action == SetccAction.RESTRICTION && parsedCommand.restrictionType != null) {
                 // Create restriction if not existing yet
-                // TODO("Does insertIgnore as insert or if existing do nothing?")
                 ClassicCommandRestriction.insertIgnore {
                     it[command] = parsedCommand.affectedCommand
                     it[serverId] = event.guild.id
