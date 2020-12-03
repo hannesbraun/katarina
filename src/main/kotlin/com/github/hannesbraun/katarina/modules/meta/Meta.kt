@@ -38,7 +38,7 @@ class Meta(config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHan
                 MetaCommand.UPTIME -> "Uptime: ${
                     (currentTimeMillis() - startTime).toDuration(DurationUnit.MILLISECONDS)
                         .toString(DurationUnit.DAYS, 3)
-                } days"
+                }"
             }
         ).queue()
         return true
