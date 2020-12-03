@@ -3,6 +3,7 @@ package com.github.hannesbraun.katarina
 import com.github.hannesbraun.katarina.database.Configuration
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
+import com.github.hannesbraun.katarina.modules.admin.Administration
 import com.github.hannesbraun.katarina.modules.ccs.ClassicCommandSystem
 import com.github.hannesbraun.katarina.modules.danbooru.Danbooru
 import com.github.hannesbraun.katarina.modules.meta.Meta
@@ -10,6 +11,7 @@ import com.github.hannesbraun.katarina.modules.music.MusicBot
 import com.github.hannesbraun.katarina.modules.rlc.Rlc
 import com.github.hannesbraun.katarina.utilities.KatarinaException
 import kotlinx.coroutines.*
+import net.dv8tion.jda.api.events.ShutdownEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.jetbrains.exposed.sql.Database
@@ -49,6 +51,7 @@ class StageOneParser(database: Database) : ListenerAdapter() {
     private val modules = listOf<KatarinaModule>(
         Rlc(katarinaConfiguration),
         MusicBot(stageOneScope, katarinaConfiguration),
+        Administration(katarinaConfiguration),
         Meta(katarinaConfiguration),
         Danbooru(stageOneScope, katarinaConfiguration),
         ClassicCommandSystem(database, katarinaConfiguration)
@@ -85,6 +88,10 @@ class StageOneParser(database: Database) : ListenerAdapter() {
                     return@launch
             }
         }
+    }
+
+    override fun onShutdown(event: ShutdownEvent) {
+        stageOneScope.cancel()
     }
 
     fun finalize() {
