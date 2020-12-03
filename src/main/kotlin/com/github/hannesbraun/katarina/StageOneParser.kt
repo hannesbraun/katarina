@@ -1,6 +1,7 @@
 package com.github.hannesbraun.katarina
 
 import com.github.hannesbraun.katarina.database.Configuration
+import com.github.hannesbraun.katarina.gambling.Gambling
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
 import com.github.hannesbraun.katarina.modules.admin.Administration
@@ -56,6 +57,7 @@ class StageOneParser(database: Database) : ListenerAdapter() {
         Meta(katarinaConfiguration),
         Danbooru(stageOneScope, katarinaConfiguration),
         Joke(database, katarinaConfiguration),
+        Gambling(katarinaConfiguration),
         ClassicCommandSystem(database, katarinaConfiguration)
     )
 
