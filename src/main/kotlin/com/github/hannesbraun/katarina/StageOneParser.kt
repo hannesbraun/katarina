@@ -8,6 +8,7 @@ import com.github.hannesbraun.katarina.modules.admin.Administration
 import com.github.hannesbraun.katarina.modules.ccs.ClassicCommandSystem
 import com.github.hannesbraun.katarina.modules.danbooru.Danbooru
 import com.github.hannesbraun.katarina.modules.joke.Joke
+import com.github.hannesbraun.katarina.modules.math.Math
 import com.github.hannesbraun.katarina.modules.meta.Meta
 import com.github.hannesbraun.katarina.modules.music.MusicBot
 import com.github.hannesbraun.katarina.modules.randomanimals.RandomAnimals
@@ -58,6 +59,7 @@ class StageOneParser(database: Database) : ListenerAdapter() {
         Meta(katarinaConfiguration),
         Danbooru(stageOneScope, katarinaConfiguration),
         RandomAnimals(katarinaConfiguration, stageOneScope),
+        Math(katarinaConfiguration),
         Joke(database, katarinaConfiguration),
         Gambling(katarinaConfiguration),
         ClassicCommandSystem(database, katarinaConfiguration)

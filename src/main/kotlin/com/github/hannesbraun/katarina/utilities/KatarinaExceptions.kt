@@ -12,3 +12,4 @@ class KatarinaWrongChannelException(message: String) : KatarinaException(message
 class KatarinaNSFWException(message: String) : KatarinaException(message)
 class KatarinaCCSException(message: String) : KatarinaException(message)
 class KatarinaUnauthorizedException(message: String): KatarinaException(message)
+class KatarinaMathException(message: String): KatarinaException(message)
