@@ -6,6 +6,7 @@ import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
 import com.github.hannesbraun.katarina.modules.admin.Administration
 import com.github.hannesbraun.katarina.modules.ccs.ClassicCommandSystem
 import com.github.hannesbraun.katarina.modules.danbooru.Danbooru
+import com.github.hannesbraun.katarina.modules.joke.Joke
 import com.github.hannesbraun.katarina.modules.meta.Meta
 import com.github.hannesbraun.katarina.modules.music.MusicBot
 import com.github.hannesbraun.katarina.modules.rlc.Rlc
@@ -54,6 +55,7 @@ class StageOneParser(database: Database) : ListenerAdapter() {
         Administration(katarinaConfiguration),
         Meta(katarinaConfiguration),
         Danbooru(stageOneScope, katarinaConfiguration),
+        Joke(database, katarinaConfiguration),
         ClassicCommandSystem(database, katarinaConfiguration)
     )
 
