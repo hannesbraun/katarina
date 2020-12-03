@@ -10,6 +10,7 @@ import com.github.hannesbraun.katarina.modules.danbooru.Danbooru
 import com.github.hannesbraun.katarina.modules.joke.Joke
 import com.github.hannesbraun.katarina.modules.meta.Meta
 import com.github.hannesbraun.katarina.modules.music.MusicBot
+import com.github.hannesbraun.katarina.modules.randomanimals.RandomAnimals
 import com.github.hannesbraun.katarina.modules.rlc.Rlc
 import com.github.hannesbraun.katarina.utilities.KatarinaException
 import kotlinx.coroutines.*
@@ -56,6 +57,7 @@ class StageOneParser(database: Database) : ListenerAdapter() {
         Administration(katarinaConfiguration),
         Meta(katarinaConfiguration),
         Danbooru(stageOneScope, katarinaConfiguration),
+        RandomAnimals(katarinaConfiguration, stageOneScope),
         Joke(database, katarinaConfiguration),
         Gambling(katarinaConfiguration),
         ClassicCommandSystem(database, katarinaConfiguration)
