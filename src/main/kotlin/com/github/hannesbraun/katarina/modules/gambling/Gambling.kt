@@ -1,8 +1,9 @@
-package com.github.hannesbraun.katarina.gambling
+package com.github.hannesbraun.katarina.modules.gambling
 
 import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
+import com.github.hannesbraun.katarina.utilities.displayName
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import java.lang.RuntimeException
@@ -35,7 +36,7 @@ class Gambling(private val config: KatarinaConfiguration) : KatarinaModule(), Me
                 || (command.rpc == RPC.SCISSORS && botChoice == RPC.PAPER)
         val winnerString = when (userIsWinner) {
             null -> "Nobody"
-            true -> event.author.name
+            true -> event.displayName()
             false -> config.botName
         }
 
@@ -43,7 +44,7 @@ class Gambling(private val config: KatarinaConfiguration) : KatarinaModule(), Me
             EmbedBuilder()
                 .setTitle("Rock paper scissors")
                 .setColor(0x398b18)
-                .addField("${event.author.name}'s shape", "`" + command.rpc.output + "`", true)
+                .addField("${event.displayName()}'s shape", "`" + command.rpc.output + "`", true)
                 .addField("${config.botName}'s shape", "`" + botChoice.output + "`", true)
                 .addField("Winner", winnerString, true)
                 .build()

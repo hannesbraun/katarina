@@ -1,4 +1,4 @@
-package com.github.hannesbraun.katarina.gambling
+package com.github.hannesbraun.katarina.modules.gambling
 
 import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaParser
