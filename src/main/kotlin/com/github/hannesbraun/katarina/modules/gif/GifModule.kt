@@ -27,9 +27,9 @@ class GifModule(private val config: KatarinaConfiguration) : KatarinaModule(), M
         val gifs = transaction {
             Gif.select {
                 if (nsfwChannel) {
-                    (Gif.command eq command.commandString) and (Gif.active eq 1)
+                    (Gif.command eq command.asString) and (Gif.active eq 1)
                 } else {
-                    (Gif.command eq command.commandString) and (Gif.active eq 1) and (Gif.nsfw eq 0)
+                    (Gif.command eq command.asString) and (Gif.active eq 1) and (Gif.nsfw eq 0)
                 }
             }.toList()
         }

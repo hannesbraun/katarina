@@ -1,6 +1,8 @@
 package com.github.hannesbraun.katarina
 
 import com.github.hannesbraun.katarina.database.Configuration
+import com.github.hannesbraun.katarina.database.ConfigurationConstants
+import com.github.hannesbraun.katarina.database.initConfiguration
 import com.github.hannesbraun.katarina.modules.gambling.Gambling
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
@@ -30,18 +32,18 @@ class StageOneParser(database: Database) : ListenerAdapter() {
     private val katarinaConfiguration: KatarinaConfiguration
 
     init {
-        var prefix = "!"
-        var botName = "Katarina"
-        var ownerId = ""
-        var dbVersion = ""
+        var prefix = ConfigurationConstants.defaultPrefix
+        var botName = ConfigurationConstants.defaultBotName
+        var ownerId = ConfigurationConstants.defaultOwnerId
+        var dbVersion = "" // Not using default value as fallback since the correct version string has to be present
         transaction(database) {
-            Configuration.select { Configuration.key eq "cmd_prefix" }.limit(1)
+            Configuration.select { Configuration.key eq ConfigurationConstants.keyPrefix }.limit(1)
                 .forEach { prefix = it[Configuration.value] }
-            Configuration.select { Configuration.key eq "bot_name" }.limit(1)
+            Configuration.select { Configuration.key eq ConfigurationConstants.keyBotName }.limit(1)
                 .forEach { botName = it[Configuration.value] }
-            Configuration.select { Configuration.key eq "owner_id" }.limit(1)
+            Configuration.select { Configuration.key eq ConfigurationConstants.keyOwnerId }.limit(1)
                 .forEach { ownerId = it[Configuration.value] }
-            Configuration.select { Configuration.key eq "db_version" }.limit(1)
+            Configuration.select { Configuration.key eq ConfigurationConstants.keyDbVersion }.limit(1)
                 .forEach { dbVersion = it[Configuration.value] }
         }
 

@@ -7,7 +7,7 @@ class GifParser(config: KatarinaConfiguration) : KatarinaParser(config) {
     fun parse(message: String): Gif? = Gif.fromString(splitArgs(message)[0].toLowerCase())
 }
 
-enum class Gif(val commandString: String, val verb: String = "") {
+enum class Gif(val asString: String, val verb: String = "") {
     BITE("bite", "bites"),
     CAKE("cake", "feeds"),
     CONFUSED("confused"),
@@ -28,7 +28,7 @@ enum class Gif(val commandString: String, val verb: String = "") {
     STARE("stare");
 
     companion object {
-        private val map = values().associateBy(Gif::commandString)
+        private val map = values().associateBy(Gif::asString)
         fun fromString(commandString: String) = map[commandString]
     }
 }
