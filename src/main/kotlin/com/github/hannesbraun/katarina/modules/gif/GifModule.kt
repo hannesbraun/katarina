@@ -56,7 +56,7 @@ class GifModule(private val config: KatarinaConfiguration) : KatarinaModule(), M
             // Active command -> we need a title
             val authorName = event.displayName()
             val title = when (event.message.mentionedMembers.size) {
-                0 -> "Katarina ${command.verb} $authorName" // Katarina -> User
+                0 -> "${config.botName} ${command.verb} $authorName" // Katarina -> User
                 1 -> "$authorName ${command.verb} ${event.message.mentionedMembers.first().effectiveName}" // User -> other user
                 else -> {
                     // User -> multiple users
