@@ -42,7 +42,7 @@ Available active commands:
 * `!highfive`
 * `!hug`
 * `!kiss`
-* `!lick
+* `!lick`
 * `!pat`
 * `!poke`
 * `!punch`

@@ -1,8 +1,18 @@
 # Changelog
 
-4.0.0 (Who knows if this will ever get released?)
+4.0.0 (December 4, 2020)
 ------------------------------
-*Note: I switched the programming language again. We're using Kotlin now.*
+This is a major update, but the changes are mainly internal. Katarina got completely rewritten in Kotlin.
+Well, so what's new?
+* New supported sources for the music bot:
+    + SoundCloud
+    + Bandcamp
+    + Twitch Streams
+    + Vimeo
+    + HTTP URLs
+* Uptime command to see how long the bot is running already
+* Faster access to Danbooru-like imageboards
+* New command line arguments (should make maintenance hopefully easier)
 
 3.1.7 (October 24, 2020)
 ------------------------------
@@ -11,12 +21,12 @@
 3.1.6 (September 16, 2020)
 ------------------------------
 * New League of Legends champion for `rlc`: Samira
-* Increased maximum amount of champions to generate
+* Increased the maximum amount of champions to generate
 
 3.1.5 (September 7, 2020)
 ------------------------------
 * Temporarily fix pytube
-* Add new League of Legends champions (Lillia and Yone)
+* Add the new League of Legends champions (Lillia and Yone)
 
 3.1.4 (April 24, 2020)
 ------------------------------
@@ -61,7 +71,7 @@
 
 2.0.0 (March 16, 2020)
 ------------------------------
-*Note: Katarina is no longer using Go. Instead she's using Python now.*
+*Note: Katarina is no longer using Go. Instead, she's using Python now.*
 
 * Removed hardcoded soundboard
 * Added the `rlc` command to generate random champions from League of Legends
