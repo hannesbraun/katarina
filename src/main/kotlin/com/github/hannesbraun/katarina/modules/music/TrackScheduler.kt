@@ -47,7 +47,7 @@ class TrackScheduler(
         if (track == null)
             return
 
-        val npString: String = "**Now playing**: ${getTrackDisplayName(track)}"
+        val npString = "**Now playing**: ${getTrackDisplayName(track)}"
 
         textChannel.sendMessage(npString)
             .deleteAfter(track.duration, TimeUnit.MILLISECONDS)
@@ -100,14 +100,14 @@ class TrackScheduler(
     }
 
     private fun getTrackDisplayName(track: AudioTrack): String {
-        val name =  if (track.sourceManager.sourceName in sourcesWithAuthor)
+        val name = if (track.sourceManager.sourceName in sourcesWithAuthor)
             "${track.info.author} - ${track.info.title}"
         else
             track.info.title
 
-        if (track.sourceManager.sourceName == "bandcamp") {
-            return StringEscapeUtils.unescapeHtml4(name)
-        } else return name
+        return if (track.sourceManager.sourceName == "bandcamp") {
+            StringEscapeUtils.unescapeHtml4(name)
+        } else name
     }
 
     suspend fun queue(track: AudioTrack, playlist: Boolean = false) {

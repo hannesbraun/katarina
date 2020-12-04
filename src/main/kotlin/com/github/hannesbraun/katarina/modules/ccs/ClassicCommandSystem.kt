@@ -187,8 +187,6 @@ class ClassicCommandSystem(private val database: Database, private val config: K
                 }
                 event.channel.sendMessage("Restriction of type ${parsedCommand.restrictionType.restriction} with id ${parsedCommand.affectedId} for command `${config.prefix}${parsedCommand.affectedCommand}` was added.")
                     .queue()
-            } else {
-                // Making Kotlin happy with this empty else branch?
             }
         }
     }
@@ -207,8 +205,8 @@ class ClassicCommandSystem(private val database: Database, private val config: K
 
     private fun sendData(event: MessageReceivedEvent, parsedCommand: ParsedClassicCommand) {
         var description: String? = null
-        var active: Boolean = true
-        var nsfw: Boolean = false
+        var active = true
+        var nsfw = false
         var found = false
         val userWhitelist = mutableListOf<String>()
         val userBlacklist = mutableListOf<String>()

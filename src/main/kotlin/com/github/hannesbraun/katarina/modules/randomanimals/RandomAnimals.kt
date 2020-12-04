@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import org.slf4j.LoggerFactory
 
-class RandomAnimals(private val config: KatarinaConfiguration, private val scope: CoroutineScope) : KatarinaModule(),
+class RandomAnimals(config: KatarinaConfiguration, private val scope: CoroutineScope) : KatarinaModule(),
     MessageReceivedHandler {
     private val parser = RandomAnimalsParser(config)
 

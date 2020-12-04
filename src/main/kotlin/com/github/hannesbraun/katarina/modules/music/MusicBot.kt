@@ -172,7 +172,7 @@ class MusicBot(private val scope: CoroutineScope, private val config: KatarinaCo
         return userChannel
     }
 
-    private fun getPlayer(event: MessageReceivedEvent): AudioPlayer? =
+    private fun getPlayer(event: MessageReceivedEvent): AudioPlayer =
         (event.guild.audioManager.sendingHandler as AudioPlayerSendHandler).audioPlayer
 }
 

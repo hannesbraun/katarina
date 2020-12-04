@@ -7,10 +7,9 @@ import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class Joke(private val database: Database, config: KatarinaConfiguration): KatarinaModule(), MessageReceivedHandler {
+class Joke(private val database: Database, config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHandler {
     private val parser = JokeParser(config)
 
     override fun tryHandleMessageReceived(event: MessageReceivedEvent): Boolean {

@@ -2,13 +2,12 @@ package com.github.hannesbraun.katarina
 
 import com.github.hannesbraun.katarina.database.Configuration
 import com.github.hannesbraun.katarina.database.ConfigurationConstants
-import com.github.hannesbraun.katarina.database.initConfiguration
-import com.github.hannesbraun.katarina.modules.gambling.Gambling
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
 import com.github.hannesbraun.katarina.modules.admin.Administration
 import com.github.hannesbraun.katarina.modules.ccs.ClassicCommandSystem
 import com.github.hannesbraun.katarina.modules.danbooru.Danbooru
+import com.github.hannesbraun.katarina.modules.gambling.Gambling
 import com.github.hannesbraun.katarina.modules.gif.GifModule
 import com.github.hannesbraun.katarina.modules.joke.Joke
 import com.github.hannesbraun.katarina.modules.math.Math
