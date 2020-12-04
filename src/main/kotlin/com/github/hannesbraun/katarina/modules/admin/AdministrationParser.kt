@@ -12,6 +12,8 @@ class AdministrationParser(config: KatarinaConfiguration) : KatarinaParser(confi
                     args[1].toInt()
                 } catch (e: NumberFormatException) {
                     0
+                } catch (e: IndexOutOfBoundsException) {
+                    0
                 }
             )
             // "createdummy" -> AdministrationCommand(AdministrationCommandType.CREATEDUMMY) // For debugging only
