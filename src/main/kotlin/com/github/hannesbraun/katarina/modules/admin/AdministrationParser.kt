@@ -14,7 +14,7 @@ class AdministrationParser(config: KatarinaConfiguration) : KatarinaParser(confi
                     0
                 }
             )
-            "createdummy" -> AdministrationCommand(AdministrationCommandType.CREATEDUMMY) // For debugging only
+            // "createdummy" -> AdministrationCommand(AdministrationCommandType.CREATEDUMMY) // For debugging only
             "mute" -> AdministrationCommand(AdministrationCommandType.MUTE)
             "shutdown" -> AdministrationCommand(AdministrationCommandType.SHUTDOWN)
             "slowmode" -> AdministrationCommand(AdministrationCommandType.SLOWMODE)
