@@ -16,7 +16,7 @@ class Queue {
 
     suspend fun limit(toIndex: Int): MutableList<AudioTrack> {
         return mutex.withLock {
-            val sub = if (list.size > 21) list.subList(0, 21) else list
+            val sub = if (list.size > toIndex) list.subList(0, toIndex) else list
             val limited = mutableListOf<AudioTrack>()
             for (track in sub) {
                 limited.add(track)

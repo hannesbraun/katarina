@@ -10,13 +10,13 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class Joke(database: Database, config: KatarinaConfiguration): KatarinaModule(), MessageReceivedHandler {
+class Joke(private val database: Database, config: KatarinaConfiguration): KatarinaModule(), MessageReceivedHandler {
     private val parser = JokeParser(config)
 
     override fun tryHandleMessageReceived(event: MessageReceivedEvent): Boolean {
         if (!parser.parse(event.message.contentRaw)) return false
 
-        val jokes = transaction {
+        val jokes = transaction(database) {
             Joke.select { Joke.active eq 1 }.toList()
         }
 
