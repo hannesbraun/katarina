@@ -22,7 +22,7 @@ class Meta(config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHan
         .trimIndent()
 
     private val helpMessage =
-        "An overview about the available commands is available here: https://github.com/hannesbraun/katarina/blob/master/README.md"
+        "An overview about the available commands is available here: https://github.com/hannesbraun/katarina/blob/master/USER_GUIDE.md"
 
     private val sourceMessage = "Have a look at the code I'm made of: https://github.com/hannesbraun/katarina"
 
