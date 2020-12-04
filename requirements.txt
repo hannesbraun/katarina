@@ -1,4 +1,0 @@
-pytube3
-requests
-discord.py
-pynacl
