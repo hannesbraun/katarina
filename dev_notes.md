@@ -14,3 +14,5 @@ Now and then, the page limits for some clients need to be updated with new value
 ## Doing a release
 Remove "-SNAPSHOT" from both the version in the Gradle configuration and the KatarinaMeta object.
 When working on a new version again, readd "-SNAPSHOT" with a new version number.
+
+Also, don't forget to update the changelog.

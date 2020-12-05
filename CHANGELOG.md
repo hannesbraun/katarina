@@ -1,5 +1,10 @@
 # Changelog
 
+4.0.1 (December 5, 2020)
+------------------------------
+* Bugfix: executing `!clear` without an argument caused an unwanted exception
+* Bugfix: fixed the output for `!about`
+
 4.0.0 (December 4, 2020)
 ------------------------------
 This is a major update, but the changes are mainly internal. Katarina got completely rewritten in Kotlin.
