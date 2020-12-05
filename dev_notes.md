@@ -10,3 +10,7 @@ The gradle wrapper can be updated with something like `./gradlew wrapper --gradl
 
 ## Danbooru module maintenance
 Now and then, the page limits for some clients need to be updated with new values to increase the randomness.
+
+## Doing a release
+Remove "-SNAPSHOT" from both the version in the Gradle configuration and the KatarinaMeta object.
+When working on a new version again, readd "-SNAPSHOT" with a new version number.
