@@ -39,8 +39,9 @@ class Administration(private val config: KatarinaConfiguration) : KatarinaModule
             throw KatarinaUnauthorizedException("Not authorized to execute this command")
 
         event.message.delete().queue {
+            // Execute clearing and limit amount of messages to prevent a stack overflow (because of recursion)
             if (command.intArg > 0)
-                clearHelper(event, command.intArg, true)
+                clearHelper(event, command.intArg.limit(0, 1000 * 100), true)
         }
     }
 
