@@ -1,5 +1,10 @@
 # Changelog
 
+4.0.2 (December 17, 2020)
+------------------------------
+* New League of Legends champion for `rlc`: Rell
+* Bugfix: executing the clear command with a very large number can no longer lead to a stack overflow
+
 4.0.1 (December 5, 2020)
 ------------------------------
 * Bugfix: executing `!clear` without an argument caused an unwanted exception

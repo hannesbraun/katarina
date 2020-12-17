@@ -107,6 +107,7 @@ class Champions {
         "Rakan",
         "Rammus",
         "Rek'Sai",
+        "Rell",
         "Renekton",
         "Rengar",
         "Riven",
