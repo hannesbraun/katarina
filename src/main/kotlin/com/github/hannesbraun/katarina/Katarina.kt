@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
 import java.sql.Connection
 
 object KatarinaMeta {
-    const val version = "4.0.2"
+    const val version = "4.0.3-SNAPSHOT"
 }
 
 enum class RunMode {
