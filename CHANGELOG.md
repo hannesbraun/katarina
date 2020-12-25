@@ -1,5 +1,10 @@
 # Changelog
 
+4.0.3 (December 25, 2020)
+------------------------------
+* Dependency updates (makes SoundCloud work again with the music bot)
+* Bugfix: the about command looks like it did in version 3 again
+
 4.0.2 (December 17, 2020)
 ------------------------------
 * New League of Legends champion for `rlc`: Rell
