@@ -2,7 +2,7 @@ package com.github.hannesbraun.katarina.modules.rlc
 
 class Champions {
     fun getRandomChampion(): String {
-        return champions.random()
+        return championNames.random()
     }
 
     fun getRandomChampions(i: Int): List<String> {
@@ -12,7 +12,7 @@ class Champions {
         return result
     }
 
-    private val champions = listOf(
+    private val championNames = listOf(
         "Aatrox",
         "Ahri",
         "Akali",

@@ -37,11 +37,9 @@ class TrackScheduler(
         "twitch"
     )
 
-    override fun onPlayerPause(player: AudioPlayer?) {
-    }
+    override fun onPlayerPause(player: AudioPlayer?) = Unit
 
-    override fun onPlayerResume(player: AudioPlayer?) {
-    }
+    override fun onPlayerResume(player: AudioPlayer?) = Unit
 
     override fun onTrackStart(player: AudioPlayer?, track: AudioTrack?) {
         if (track == null)
