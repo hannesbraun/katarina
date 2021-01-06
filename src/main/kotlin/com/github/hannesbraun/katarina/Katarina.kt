@@ -8,15 +8,15 @@ import kotlinx.cli.required
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.sql.Connection
 
 object KatarinaMeta {
-    const val version = "4.0.3"
+    const val version = "4.0.4-SNAPSHOT"
 }
 
 enum class RunMode {

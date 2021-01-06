@@ -13,14 +13,10 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.managers.AudioManager
-import net.dv8tion.jda.api.requests.restaction.MessageAction
 import org.slf4j.LoggerFactory
-import java.lang.RuntimeException
-import java.util.concurrent.TimeUnit
 
 object MessageDeletionTimes {
     /* Time in minutes until a music bot related message will be deleted*/
