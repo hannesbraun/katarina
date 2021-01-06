@@ -6,6 +6,7 @@ import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
 import com.github.hannesbraun.katarina.utilities.KatarinaGuildOnlyException
 import com.github.hannesbraun.katarina.utilities.KatarinaUnconnectedException
 import com.github.hannesbraun.katarina.utilities.KatarinaWrongChannelException
+import com.github.hannesbraun.katarina.utilities.deleteAfter
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
@@ -175,16 +176,3 @@ class MusicBot(private val scope: CoroutineScope, private val config: KatarinaCo
     private fun getPlayer(event: MessageReceivedEvent): AudioPlayer =
         (event.guild.audioManager.sendingHandler as AudioPlayerSendHandler).audioPlayer
 }
-
-fun Message.deleteAfter(minutes: Long) {
-    this.delete().queueAfter(minutes, TimeUnit.MINUTES)
-}
-
-fun MessageAction.deleteAfter(minutes: Long) =
-    this.delay(minutes, TimeUnit.MINUTES)
-        .flatMap { it.delete() }
-
-
-fun MessageAction.deleteAfter(duration: Long, unit: TimeUnit) =
-    this.delay(duration, unit)
-        .flatMap { it.delete() }

@@ -16,6 +16,7 @@ import com.github.hannesbraun.katarina.modules.music.MusicBot
 import com.github.hannesbraun.katarina.modules.randomanimals.RandomAnimals
 import com.github.hannesbraun.katarina.modules.rlc.Rlc
 import com.github.hannesbraun.katarina.utilities.KatarinaException
+import com.github.hannesbraun.katarina.utilities.deleteAfter
 import kotlinx.coroutines.*
 import net.dv8tion.jda.api.events.ShutdownEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
@@ -84,8 +85,7 @@ class StageOneParser(database: Database) : ListenerAdapter() {
                     module.tryHandleMessageReceived(event)
                 } catch (e: KatarinaException) {
                     event.channel.sendMessage(e.localizedMessage)
-                        .delay(24, TimeUnit.HOURS)
-                        .flatMap { it.delete() }
+                        .deleteAfter(24, TimeUnit.HOURS)
                         .queue()
 
                     LoggerFactory.getLogger("StageOneParser").info("\"${event.message.contentRaw}\" : ${e.message}")

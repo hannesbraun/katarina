@@ -1,5 +1,6 @@
 package com.github.hannesbraun.katarina.modules.music
 
+import com.github.hannesbraun.katarina.utilities.deleteAfter
 import com.github.hannesbraun.katarina.utilities.limit
 import com.github.hannesbraun.katarina.utilities.limitWithDots
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
