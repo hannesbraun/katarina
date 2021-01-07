@@ -1,5 +1,11 @@
 # Changelog
 
+4.0.4 (January 7, 2021)
+------------------------------
+* New administration commands: `!mm` and `!permissions`
+* Increased randomness for the Danbooru clients
+* Dependency updates
+
 4.0.3 (December 25, 2020)
 ------------------------------
 * Dependency updates (makes SoundCloud work again with the music bot)

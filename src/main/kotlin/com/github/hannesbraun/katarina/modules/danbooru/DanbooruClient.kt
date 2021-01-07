@@ -150,7 +150,7 @@ open class DanbooruPost(
         }
 
     private val received = currentTimeMillis()
-    private val outdatedMilliseconds = 4 * 60 * 60 * 1000
+    private val outdatedMilliseconds = 2 * 60 * 1000
     private fun isOutdated(): Boolean = (received - currentTimeMillis()) > outdatedMilliseconds
 
     protected open fun isExplicit(): Boolean = rating == "e"
