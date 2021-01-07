@@ -96,7 +96,9 @@ Note: keep in mind that floating-point arithmetic is used for these calculations
 ## Admin utilities
 
 * `!clear <number of messages>`: Deletes the last `<number of messages>` messages in the current channel.
+* `!mm <source channel id> <destination channel id>`: Moves the connected members of the source channel to the destination channel.
 * `!mute <user> ...`: Mutes the mentioned users server-wide.
++ `!permissions <user> <channel id>`: Shows the permissions of a user for the given channel.
 * `!slowmode`: Activates or deactivates the slowmode for the current channel. If activated, the delay will be set to 30 seconds.
 * `!unmute <user> ...`: Unmutes the mentioned users server-wide.
 
