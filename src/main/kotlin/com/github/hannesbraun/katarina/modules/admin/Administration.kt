@@ -3,10 +3,9 @@ package com.github.hannesbraun.katarina.modules.admin
 import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
-import com.github.hannesbraun.katarina.utilities.KatarinaGuildOnlyException
-import com.github.hannesbraun.katarina.utilities.KatarinaUnauthorizedException
-import com.github.hannesbraun.katarina.utilities.limit
+import com.github.hannesbraun.katarina.utilities.*
 import net.dv8tion.jda.api.Permission
+import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import java.lang.IllegalStateException
 import java.util.concurrent.TimeUnit
@@ -26,7 +25,9 @@ class Administration(private val config: KatarinaConfiguration) : KatarinaModule
         when (command.type) {
             AdministrationCommandType.CLEAR -> clear(event, command)
             AdministrationCommandType.CREATEDUMMY -> createMessages(event)
+            AdministrationCommandType.MASSMOVE -> massmove(event, command)
             AdministrationCommandType.MUTE -> mute(event, true)
+            AdministrationCommandType.SHOWPERMISSIONS -> showPermissions(event, command)
             AdministrationCommandType.SHUTDOWN -> shutdown(event)
             AdministrationCommandType.SLOWMODE -> slowmode(event)
             AdministrationCommandType.UNMUTE -> mute(event, false)
@@ -59,6 +60,20 @@ class Administration(private val config: KatarinaConfiguration) : KatarinaModule
             }.thenRun { clearHelper(event, leftover - leftoverLimited, false) }
     }
 
+    private fun massmove(event: MessageReceivedEvent, command: AdministrationCommand) {
+        if (event.member?.hasPermission(Permission.VOICE_MOVE_OTHERS) != true)
+            throw KatarinaUnauthorizedException("Not authorized to execute this command")
+
+        fun findVoiceChannelById(guild: Guild, id: String) = guild.voiceChannels.first { it.id == id }
+        val destination = findVoiceChannelById(event.guild, command.strArg2)
+
+        for (member in findVoiceChannelById(event.guild, command.strArg1).members) {
+            event.guild.moveVoiceMember(member, destination).queue()
+        }
+
+        event.message.delete().queue()
+    }
+
     private fun mute(event: MessageReceivedEvent, mute: Boolean) {
         if (event.member?.hasPermission(Permission.VOICE_MUTE_OTHERS) != true)
             throw KatarinaUnauthorizedException("Not authorized to execute this command")
@@ -70,6 +85,16 @@ class Administration(private val config: KatarinaConfiguration) : KatarinaModule
                 event.channel.sendMessage("Unable to mute ${member.effectiveName}").queue()
             }
         }
+    }
+
+    private fun showPermissions(event: MessageReceivedEvent, command: AdministrationCommand) {
+        val channel = event.guild.channels.first { it.id == command.strArg1 }
+        val member = event.message.mentionedMembers.first()
+
+        val message = Permission.values()
+            .joinToString("\n", "```", "```") { "${it.getName()}: ${member.hasPermission(channel, it)}" }
+
+        event.channel.sendMessage(message).queue()
     }
 
     private fun slowmode(event: MessageReceivedEvent) {
