@@ -1,5 +1,9 @@
 # Changelog
 
+4.1.0 (January 8, 2021)
+------------------------------
+* New music bot source: Monstercat
+
 4.0.4 (January 7, 2021)
 ------------------------------
 * New administration commands: `!mm` and `!permissions`

@@ -35,6 +35,7 @@ class TrackScheduler(
 
     private val sourcesWithAuthor = listOf(
         "bandcamp",
+        "http",
         "twitch"
     )
 

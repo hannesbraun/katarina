@@ -3,6 +3,7 @@ package com.github.hannesbraun.katarina.modules.music
 import com.github.hannesbraun.katarina.KatarinaConfiguration
 import com.github.hannesbraun.katarina.modules.KatarinaModule
 import com.github.hannesbraun.katarina.modules.MessageReceivedHandler
+import com.github.hannesbraun.katarina.modules.music.monstercat.MonstercatSourceManager
 import com.github.hannesbraun.katarina.utilities.KatarinaGuildOnlyException
 import com.github.hannesbraun.katarina.utilities.KatarinaUnconnectedException
 import com.github.hannesbraun.katarina.utilities.KatarinaWrongChannelException
@@ -10,6 +11,7 @@ import com.github.hannesbraun.katarina.utilities.deleteAfter
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
+import com.sedmelluq.discord.lavaplayer.source.local.LocalAudioSourceManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -37,6 +39,7 @@ class MusicBot(private val scope: CoroutineScope, private val config: KatarinaCo
     private val connectionMutex = Mutex()
 
     init {
+        playerManager.registerSourceManager(MonstercatSourceManager(scope))
         AudioSourceManagers.registerRemoteSources(playerManager)
     }
 
