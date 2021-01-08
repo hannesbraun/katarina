@@ -72,6 +72,7 @@ Katarina can play music. Currently, the following sources are supported:
 * Bandcamp
 * Twitch Streams
 * Vimeo
+* Monstercat
 * HTTP URLs
 
 The bot can only be controlled while being in the same channel together with the bot.
