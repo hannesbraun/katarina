@@ -1,4 +1,5 @@
 # Katarina
+![Build Status](https://github.com/hannesbraun/katarina/workflows/Build/badge.svg)
 
 Just another discord bot
 
