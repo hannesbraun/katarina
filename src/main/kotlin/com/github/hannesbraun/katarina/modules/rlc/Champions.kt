@@ -1,6 +1,6 @@
 package com.github.hannesbraun.katarina.modules.rlc
 
-class Champions {
+object Champions {
     fun getRandomChampion(): String {
         return championNames.random()
     }
