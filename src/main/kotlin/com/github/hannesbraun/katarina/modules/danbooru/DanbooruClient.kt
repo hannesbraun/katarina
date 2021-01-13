@@ -31,11 +31,13 @@ open class DanbooruClient(private val scope: CoroutineScope) {
 
     protected open val name = "Danbooru"
     protected open val indexUrl = "https://danbooru.donmai.us/posts.json"
-    private val errorExplicitEmbed = EmbedBuilder()
+    private val errorEmbed = EmbedBuilder()
         .setTitle("Error")
-        .setDescription("No explicit post found.")
+        .setDescription("No post found.")
         .setColor(0xff001f)
         .build()
+
+    private val bannedTags = listOf("loli", "shota")
 
     suspend fun getPostAsEmbed(explicitOnly: Boolean): MessageEmbed {
         val deferredPost = scope.async { postChannel.receive() }
@@ -44,15 +46,20 @@ open class DanbooruClient(private val scope: CoroutineScope) {
             .setTitle(name)
             .setColor(0xd480ff)
 
+        fun filterPost(post: DanbooruPost): Boolean {
+            return !post.isUsable(explicitOnly)
+                    || post.tagList.intersect(bannedTags).isNotEmpty()
+        }
+
         var post = deferredPost.await()
         var tries = 0
-        while (tries < maxRetries && !post.isUsable(explicitOnly)) {
+        while (tries < maxRetries && filterPost(post)) {
             post = postChannel.receive()
             tries++
         }
 
-        if (tries == maxRetries && !post.isUsable(explicitOnly))
-            return errorExplicitEmbed
+        if (tries == maxRetries && filterPost(post))
+            return errorEmbed
 
         return embedBuilder
             .setImage(post.fileUrl)
