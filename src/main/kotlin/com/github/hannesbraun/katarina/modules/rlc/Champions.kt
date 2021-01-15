@@ -1,5 +1,7 @@
 package com.github.hannesbraun.katarina.modules.rlc
 
+import kotlin.math.min
+
 object Champions {
     fun getRandomChampion(): String {
         return championNames.random()
@@ -8,7 +10,11 @@ object Champions {
     fun getRandomChampions(i: Int): List<String> {
         if (i < 1) return emptyList()
         val result = mutableListOf<String>()
-        for (x in 1..i) result.add(getRandomChampion())
+        while (result.size < min(i, championNames.size)) {
+            getRandomChampion().let {
+                if (!result.contains(it)) result.add(it)
+            }
+        }
         return result
     }
 

@@ -19,7 +19,7 @@ class RlcTest {
         // Check for duplicates
         for (i in 1..20) {
             val champions = Champions.getRandomChampions(20)
-            Assertions.assertEquals(20, champions.distinct())
+            Assertions.assertEquals(20, champions.distinct().size)
         }
     }
 
