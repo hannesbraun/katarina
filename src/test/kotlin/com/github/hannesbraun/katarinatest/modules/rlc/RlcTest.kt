@@ -10,10 +10,17 @@ import org.junit.jupiter.api.Test
 class RlcTest {
     @Test
     fun testGenerateRandomChampions() {
+        // Test amount of generated champions
         Assertions.assertEquals(0, Champions.getRandomChampions(0).size)
         Assertions.assertEquals(0, Champions.getRandomChampions(-1).size)
         Assertions.assertEquals(1, Champions.getRandomChampions(1).size)
         Assertions.assertEquals(42, Champions.getRandomChampions(42).size)
+
+        // Check for duplicates
+        for (i in 1..20) {
+            val champions = Champions.getRandomChampions(20)
+            Assertions.assertEquals(20, champions.distinct())
+        }
     }
 
     @Test
