@@ -7,7 +7,6 @@ import com.github.hannesbraun.katarina.utilities.*
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
-import java.lang.IllegalStateException
 import java.util.concurrent.TimeUnit
 
 class Administration(private val config: KatarinaConfiguration) : KatarinaModule(), MessageReceivedHandler {
@@ -25,6 +24,7 @@ class Administration(private val config: KatarinaConfiguration) : KatarinaModule
         when (command.type) {
             AdministrationCommandType.CLEAR -> clear(event, command)
             AdministrationCommandType.CREATEDUMMY -> createMessages(event)
+            AdministrationCommandType.DISCONNECT -> disconnect(event)
             AdministrationCommandType.MASSMOVE -> massmove(event, command)
             AdministrationCommandType.MUTE -> mute(event, true)
             AdministrationCommandType.SHOWPERMISSIONS -> showPermissions(event, command)
@@ -58,6 +58,20 @@ class Administration(private val config: KatarinaConfiguration) : KatarinaModule
                 else if (it.size == 1 || leftoverLimited == 1) it[0].delete().submit()
                 else event.textChannel.deleteMessages(it).submit()
             }.thenRun { clearHelper(event, leftover - leftoverLimited, false) }
+    }
+
+    private fun disconnect(event: MessageReceivedEvent) {
+        if (event.member?.hasPermission(Permission.VOICE_MOVE_OTHERS) != true)
+            throw KatarinaUnauthorizedException("Not authorized to execute this command")
+
+        for (member in event.message.mentionedMembers) {
+            try {
+                event.guild.moveVoiceMember(member, null).queue()
+            } catch (e: IllegalStateException) {
+                event.channel.sendMessage("Unable to disconnect ${member.effectiveName}")
+                    .deleteAfter(30, TimeUnit.SECONDS).queue()
+            }
+        }
     }
 
     private fun massmove(event: MessageReceivedEvent, command: AdministrationCommand) {

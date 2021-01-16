@@ -97,6 +97,7 @@ Note: keep in mind that floating-point arithmetic is used for these calculations
 ## Admin utilities
 
 * `!clear <number of messages>`: Deletes the last `<number of messages>` messages in the current channel.
+* `!dc <user> ...`: Disconnects the mentioned users from the voice channel they're currently connected to.
 * `!mm <source channel id> <destination channel id>`: Moves the connected members of the source channel to the destination channel.
 * `!mute <user> ...`: Mutes the mentioned users server-wide.
 + `!permissions <user> <channel id>`: Shows the permissions of a user for the given channel.

@@ -19,6 +19,7 @@ class AdministrationParser(config: KatarinaConfiguration) : KatarinaParser(confi
                 }
             )
             // "createdummy" -> AdministrationCommand(AdministrationCommandType.CREATEDUMMY) // For debugging only
+            "dc" -> AdministrationCommand(AdministrationCommandType.DISCONNECT)
             "mm" -> {
                 if (args.size < 3) throw KatarinaParsingException("Not enough arguments")
                 AdministrationCommand(AdministrationCommandType.MASSMOVE, strArg1 = args[1], strArg2 = args[2])
@@ -46,6 +47,7 @@ data class AdministrationCommand(
 enum class AdministrationCommandType {
     CLEAR,
     CREATEDUMMY,
+    DISCONNECT,
     MASSMOVE,
     MUTE,
     SHOWPERMISSIONS,
