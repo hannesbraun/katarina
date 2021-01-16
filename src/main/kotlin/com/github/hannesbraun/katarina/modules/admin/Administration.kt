@@ -72,6 +72,8 @@ class Administration(private val config: KatarinaConfiguration) : KatarinaModule
                     .deleteAfter(30, TimeUnit.SECONDS).queue()
             }
         }
+
+        event.message.delete().queue()
     }
 
     private fun massmove(event: MessageReceivedEvent, command: AdministrationCommand) {
