@@ -15,7 +15,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation(kotlin("bom"))
+    implementation(kotlin("stdlib"))
     implementation("net.dv8tion:JDA:4.2.0_225")
     implementation("org.jetbrains.exposed:exposed-core:0.28.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.28.1")
@@ -29,8 +30,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.6")
     implementation("org.apache.commons:commons-text:1.9")
     implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
 }
 
 tasks.withType<Jar> {
