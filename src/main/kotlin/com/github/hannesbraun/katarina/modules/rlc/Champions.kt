@@ -154,6 +154,7 @@ object Champions {
         "Veigar",
         "Vel'Koz",
         "Vi",
+        "Viego",
         "Viktor",
         "Vladimir",
         "Volibear",
