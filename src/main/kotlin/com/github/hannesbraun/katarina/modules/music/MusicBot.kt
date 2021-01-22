@@ -52,7 +52,7 @@ class MusicBot(private val scope: CoroutineScope, private val config: KatarinaCo
             MusicBotBaseCommand.PAUSE -> pause(event)
             MusicBotBaseCommand.STOP -> stop(event)
             MusicBotBaseCommand.CLEAR_QUEUE -> clearQueue(event)
-            MusicBotBaseCommand.SKIP -> skip(event)
+            MusicBotBaseCommand.SKIP -> skip(event, command)
             MusicBotBaseCommand.QUEUE -> sendQueue(event)
             MusicBotBaseCommand.SHUFFLE -> shuffle(event)
         }
@@ -141,9 +141,9 @@ class MusicBot(private val scope: CoroutineScope, private val config: KatarinaCo
         schedulers[getPlayer(event)]?.clearQueue()
     }
 
-    private fun skip(event: MessageReceivedEvent) {
+    private fun skip(event: MessageReceivedEvent, command: MusicBotCommand) {
         checkSameChannel(event)
-        schedulers[getPlayer(event)]?.skip()
+        schedulers[getPlayer(event)]?.skip(command.intArg)
     }
 
     private fun sendQueue(event: MessageReceivedEvent) {

@@ -1,5 +1,14 @@
 # Changelog
 
+4.1.1 (January 22, 2021)
+------------------------------
+* New disconnect command
+* Allow skipping multiple tracks at a time (music bot)
+* New League of Legends champion for `rlc`: Viego
+* Some critical Danbooru posts will now be filtered out
+* Bugfix: prevent generating a champion multiple times (`rlc`)
+* Dependency updates
+
 4.1.0 (January 8, 2021)
 ------------------------------
 * New music bot source: Monstercat

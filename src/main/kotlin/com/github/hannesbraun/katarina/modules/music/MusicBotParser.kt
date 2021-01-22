@@ -12,7 +12,16 @@ class MusicBotParser(config: KatarinaConfiguration) : KatarinaParser(config) {
         return if (baseCommand == MusicBotBaseCommand.PLAY && args.size < 2) {
             throw KatarinaParsingException("URL for play command is missing")
         } else if (baseCommand == MusicBotBaseCommand.PLAY) {
-            MusicBotCommand(baseCommand, args.subList(1, args.size))
+            MusicBotCommand(baseCommand, urls = args.subList(1, args.size))
+        } else if (baseCommand == MusicBotBaseCommand.SKIP) {
+            val skipAmount = if (args.size >= 2) {
+                try {
+                    maxOf(1, args[1].toInt())
+                } catch (e: NumberFormatException) {
+                    1
+                }
+            } else 1
+            MusicBotCommand(baseCommand, intArg = skipAmount)
         } else {
             MusicBotCommand(baseCommand)
         }
@@ -34,4 +43,8 @@ enum class MusicBotBaseCommand(val rawCommand: String) {
     }
 }
 
-data class MusicBotCommand(val baseCommand: MusicBotBaseCommand, val urls: List<String> = emptyList())
+data class MusicBotCommand(
+    val baseCommand: MusicBotBaseCommand,
+    val urls: List<String> = emptyList(),
+    val intArg: Int = 0
+)

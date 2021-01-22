@@ -69,13 +69,15 @@ class TrackScheduler(
         }
     }
 
-    private fun playNext() {
+    private fun playNext(i: Int = 1) {
         scope.launch {
-            if (queue.isEmpty()) {
+
+            val trackToPlay = queue.remove(i)
+            if (trackToPlay == null) {
                 disconnector()
             } else {
                 // Play next track
-                player.playTrack(queue.removeFirst())
+                player.playTrack(trackToPlay)
             }
         }
     }
@@ -154,7 +156,7 @@ class TrackScheduler(
 
     fun clearQueue() = scope.launch { queue.clear() }
 
-    fun skip() = playNext()
+    fun skip(i: Int = 1) = playNext(i)
 
     fun sendQueue(textChannel: TextChannel) {
         scope.launch {

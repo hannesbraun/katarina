@@ -81,7 +81,7 @@ The bot can only be controlled while being in the same channel together with the
 * `!pause`: This command pauses or resumes the playback based on the current state.
 * `!stop`: This command clears the queue and stops the playback.
 * `!clearqueue`: This command clears the queue. The current track will continue playing.
-* `!skip`: This command skips the track which is currently playing.
+* `!skip [number of tracks]`: This command skips the track which is currently playing (or more if the amount of tracks is specified).
 * `!queue`: This command returns the next 21 tracks in the queue.
 * `!shuffle`: This command shuffles the queue.
 

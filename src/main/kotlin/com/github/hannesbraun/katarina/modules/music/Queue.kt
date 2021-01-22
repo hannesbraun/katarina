@@ -12,7 +12,15 @@ class Queue {
     suspend fun isEmpty() = mutex.withLock { list.isEmpty() }
     suspend fun clear() = mutex.withLock { list.clear() }
     suspend fun add(track: AudioTrack) = mutex.withLock { list.add(track) }
-    suspend fun removeFirst() = mutex.withLock { list.removeFirst() }
+
+    suspend fun remove(amount: Int): AudioTrack? {
+        var trackToPlay: AudioTrack? = null
+        mutex.withLock {
+            for (i in 1..amount)
+                trackToPlay = list.removeFirstOrNull()
+        }
+        return trackToPlay
+    }
 
     suspend fun limit(toIndex: Int): MutableList<AudioTrack> {
         return mutex.withLock {
