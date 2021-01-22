@@ -17,7 +17,7 @@ repositories {
 dependencies {
     implementation(kotlin("bom"))
     implementation(kotlin("stdlib"))
-    implementation("net.dv8tion:JDA:4.2.0_225")
+    implementation("net.dv8tion:JDA:4.2.0_227")
     implementation("org.jetbrains.exposed:exposed-core:0.28.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.28.1")
     implementation("org.xerial:sqlite-jdbc:3.34.0")
