@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.hannesbraun"
-version = "4.1.1"
+version = "4.1.2-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -18,8 +18,8 @@ dependencies {
     implementation(kotlin("bom"))
     implementation(kotlin("stdlib"))
     implementation("net.dv8tion:JDA:4.2.0_227")
-    implementation("org.jetbrains.exposed:exposed-core:0.28.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.28.1")
+    implementation("org.jetbrains.exposed:exposed-core:0.29.1")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.29.1")
     implementation("org.xerial:sqlite-jdbc:3.34.0")
     implementation("com.sedmelluq:lavaplayer:1.3.66")
     implementation("com.sedmelluq:lavaplayer-natives-extra:1.3.13")
